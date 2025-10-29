@@ -15,28 +15,48 @@ public class Main {
             System.out.println("4) Fin");
             System.out.print("Choix : ");
 
-            int choix = sc.nextInt();
-            sc.nextLine();
+            int choix;
+            if (sc.hasNextInt()) {
+                choix = sc.nextInt();
+                sc.nextLine(); 
+            } else {
+                System.out.println("Veuillez entrer un nombre entier valide");
+                sc.nextLine();
+                continue;
+            }
 
             switch (choix) {
                 case 1 -> {
                     System.out.print("Nom et capacité (ex: G1 60) : ");
                     String nom = sc.next();
-                    int cap = sc.nextInt();
-                    reseau.ajouterGenerateur(nom, cap);
+                    int cap;
+                    if (sc.hasNextInt()) {
+                        cap = sc.nextInt();
+                        reseau.ajouterGenerateur(nom, cap);
+                    } else {
+                        System.out.println("Capacité invalide, opération annulée.");
+                        sc.nextLine();
+                    }
                 }
                 case 2 -> {
                     System.out.print("Nom et type (ex: M1 NORMALE) : ");
+                    System.out.println("(Types possibles : BASSE, NORMALE, FORTE)");
                     String nom = sc.next();
                     String type = sc.next();
-                    reseau.ajouterMaison(nom, type);
+                    try {
+                        reseau.ajouterMaison(nom, type);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Erreur lors de l'ajout de la maison : " + e.getMessage());
+                    }
                 }
                 case 3 -> {
                     System.out.print("Connexion (ex: M1 G1) : ");
                     String a = sc.next();
                     String b = sc.next();
-                    if (a.startsWith("M")) reseau.ajouterConnexion(a, b);
-                    else reseau.ajouterConnexion(b, a);
+                    if (a.startsWith("M"))
+                        reseau.ajouterConnexion(a, b);
+                    else
+                        reseau.ajouterConnexion(b, a);
                 }
                 case 4 -> running = false;
                 default -> System.out.println("Choix invalide.");

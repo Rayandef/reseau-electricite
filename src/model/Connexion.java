@@ -20,6 +20,6 @@ public class Connexion {
     @Override
     
     public String toString() {
-        return maison.getNom() + " ↔ " + generateur.getNom();
+        return maison.getNom() + " <-> " + generateur.getNom();
     }
 }

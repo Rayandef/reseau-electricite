@@ -17,6 +17,14 @@ public class Generateur {
         return capaciteMax; 
     }
 
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setCapacite(int capaciteMax) {
+        this.capaciteMax = capaciteMax;
+    }
+
     @Override
     
     public String toString() {

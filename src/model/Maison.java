@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class Maison {
     private String nom;
     private int consommation; // en kW
@@ -20,6 +22,22 @@ public class Maison {
     
     public int getConsommation(){ 
         return consommation; 
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public void setConsommation(int consommation) {
+        this.consommation = consommation;
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Maison maison = (Maison) o;
+        return consommation == maison.consommation &&
+               Objects.equals(nom, maison.nom);
     }
 
     @Override
