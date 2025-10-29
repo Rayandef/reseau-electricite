@@ -7,6 +7,7 @@ public class Connexion {
     public Connexion(Maison maison, Generateur generateur) {
         this.maison = maison;
         this.generateur = generateur;
+        this.maison.setConnected(this.maison.getConnected() + 1);
     }
 
     public Maison getMaison(){ 

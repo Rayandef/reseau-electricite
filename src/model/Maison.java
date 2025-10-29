@@ -5,9 +5,11 @@ import java.util.Objects;
 public class Maison {
     private String nom;
     private int consommation; // en kW
+    private int connected;
 
     public Maison(String nom, String type) {
         this.nom = nom;
+        this.connected = 0;
         switch (type.toUpperCase()) {
             case "BASSE" -> this.consommation = 10;
             case "NORMALE", "NORMAL" -> this.consommation = 20;
@@ -24,12 +26,20 @@ public class Maison {
         return consommation; 
     }
 
+    public int getConnected() {
+        return connected;
+    }
+
     public void setNom(String nom) {
         this.nom = nom;
     }
 
     public void setConsommation(int consommation) {
         this.consommation = consommation;
+    }
+
+    public void setConnected(int connected) {
+        this.connected = connected;
     }
 
     public boolean equals(Object o) {
