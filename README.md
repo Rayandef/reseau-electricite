@@ -67,6 +67,7 @@ Disp(S)=0.167, Surcharge(S)=0.000, Cout(S)=0.167
 
 ## Auteurs
 
-DEFOOR Rayan
-LALLOUET Ronan
-CHEN Kévin
+- DEFOOR Rayan
+- LALLOUET Ronan
+- CHEN Kévin
+

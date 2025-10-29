@@ -18,6 +18,7 @@ public class Generateur {
     }
 
     @Override
+    
     public String toString() {
         return nom + " (" + capaciteMax + " kW max)";
     }
