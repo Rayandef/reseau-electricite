@@ -63,6 +63,51 @@ public class Reseau {
         connexions.forEach(c -> System.out.println("  " + c));
     }
 
+    public void changerConnexion(String ancienA, String ancienB, String nouveauA, String nouveauB) {
+        Maison ancienneMaison = null, nouvelleMaison = null;
+        Generateur ancienGenerateur = null, nouveauGenerateur = null;
+        if (maisons.containsKey(ancienA) && generateurs.containsKey(ancienB)) {
+            ancienneMaison = maisons.get(ancienA);
+            ancienGenerateur = generateurs.get(ancienB);
+        } else if (maisons.containsKey(ancienB) && generateurs.containsKey(ancienA)) {
+            ancienneMaison = maisons.get(ancienB);
+            ancienGenerateur = generateurs.get(ancienA);
+        } else {
+            System.out.println(" Erreur : ancienne connexion invalide (" + ancienA + ", " + ancienB + ")");
+            return;
+        }
+
+        if (maisons.containsKey(nouveauA) && generateurs.containsKey(nouveauB)) {
+            nouvelleMaison = maisons.get(nouveauA);
+            nouveauGenerateur = generateurs.get(nouveauB);
+        } else if (maisons.containsKey(nouveauB) && generateurs.containsKey(nouveauA)) {
+            nouvelleMaison = maisons.get(nouveauB);
+            nouveauGenerateur = generateurs.get(nouveauA);
+        } else {
+            System.out.println(" Erreur : nouvelle connexion invalide (" + nouveauA + ", " + nouveauB + ")");
+            return;
+        }
+        Connexion ancienneConnexion = null;
+        for (Connexion c : connexions) {
+            if (c.getMaison().equals(ancienneMaison) && c.getGenerateur().equals(ancienGenerateur)) {
+                ancienneConnexion = c;
+                break;
+            }
+        }
+
+        if (ancienneConnexion == null) {
+            System.out.println("  Aucune connexion trouvée entre " + ancienA + " et " + ancienB);
+            return;
+        }
+        ancienneConnexion.getMaison().setConnected(ancienneConnexion.getMaison().getConnected() - 1);
+        ancienneConnexion.setMaison(nouvelleMaison);
+        ancienneConnexion.setGenerateur(nouveauGenerateur);
+        nouvelleMaison.setConnected(nouvelleMaison.getConnected() + 1);
+        System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() +
+                        " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
+    }
+
+
     public void calculerCout() {
         CalculateurCout.calculer(this);
     }

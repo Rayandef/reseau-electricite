@@ -18,6 +18,13 @@ public class Connexion {
         return generateur; 
     }
 
+    public void setGenerateur(Generateur generateur) {
+        this.generateur = generateur;
+    }
+
+    public void setMaison(Maison maison) {
+        this.maison = maison;
+    }
     @Override
     
     public String toString() {

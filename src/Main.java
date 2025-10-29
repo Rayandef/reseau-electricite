@@ -9,6 +9,7 @@ public class Main {
         MenuCreation.afficherMenu(sc, reseau);
         reseau.afficherReseau();
         reseau.calculerCout();
+        Menu2.afficherMenu(sc, reseau);
         sc.close();
     }
 }
