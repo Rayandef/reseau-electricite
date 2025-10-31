@@ -1,7 +1,7 @@
 package utils;
 
-import model.*;
 import java.util.*;
+import model.*;
 
 public class CalculateurCout {
     public static final int LAMBDA = 10;
@@ -28,7 +28,6 @@ public class CalculateurCout {
         double surcharge = 0;
 
         for (var entry : utilisation.entrySet()) {
-            Generateur g = entry.getKey();
             double u = entry.getValue();
             dispersion += Math.abs(u - moyenne);
             if (u > 1.0) surcharge += (u - 1.0);

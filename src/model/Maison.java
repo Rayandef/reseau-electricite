@@ -42,16 +42,15 @@ public class Maison {
         this.connected = connected;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Maison maison = (Maison) o;
-        return consommation == maison.consommation &&
-               Objects.equals(nom, maison.nom);
+        return (consommation == maison.consommation) && Objects.equals(nom, maison.nom);
     }
 
     @Override
-
     public String toString() {
         return nom + " (" + consommation + " kW)";
     }

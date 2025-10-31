@@ -1,7 +1,7 @@
 package model;
 
-import utils.CalculateurCout;
 import java.util.*;
+import utils.CalculateurCout;
 
 public class Reseau {
     private Map<String, Maison> maisons = new HashMap<>();
@@ -13,15 +13,15 @@ public class Reseau {
         if (alreadyExist != null) {
         switch (type.toUpperCase()) {
             case "BASSE" -> alreadyExist.setConsommation(10);
-            case "NORMALE", "NORMAL" -> alreadyExist.setConsommation(20);
+            case "NORMALE" -> alreadyExist.setConsommation(20);
             case "FORTE" -> alreadyExist.setConsommation(40);
-            default -> System.out.println("Type inconnu : " + type);
+            default -> throw new IllegalArgumentException("Type inconnu : " + type);
         }
         System.out.println("Maison " + nom + " mise à jour (nouvelle consommation : " + alreadyExist.getConsommation() + " kW)");
-    } else {
+        } else {
         maisons.put(nom, new Maison(nom, type));
         System.out.println("Maison " + nom + " ajoutée.");
-    }
+        }
     }
 
     public void ajouterGenerateur(String nom, int capacite) {
@@ -36,9 +36,8 @@ public class Reseau {
     }
 
     public void ajouterConnexion(String nomA, String nomB) {
-    Maison m = null;
-    Generateur g = null;
-
+    Maison m;
+    Generateur g;
     if (maisons.containsKey(nomA) && generateurs.containsKey(nomB)) {
         m = maisons.get(nomA);
         g = generateurs.get(nomB);
@@ -46,9 +45,13 @@ public class Reseau {
         m = maisons.get(nomB);
         g = generateurs.get(nomA);
     } else {
-        System.out.println("Erreur : impossible de créer la connexion (" + nomA + ", " + nomB + ").");
-        System.out.println("Vérifiez que l'un est une maison et l'autre un générateur.");
-        return;
+        if(!((maisons.containsKey(nomB))||(generateurs.containsKey(nomB)))){ //Si nomB est ni un générateur ni une maison
+            throw new IllegalArgumentException(nomB + " est ni un generateur, ni une maison");
+        }else if(!(maisons.containsKey(nomA) || generateurs.containsKey(nomA))){ //Si nomA est ni un générateur ni une maison
+            throw new IllegalArgumentException(nomA + " est ni un generateur, ni une maison");
+        }else{
+            throw new IllegalArgumentException(nomA + " " + nomB + " ne sont ni des generateurs, ni des maisons"); //Si aucun des deux est un générateur ou une maison
+        }
     }
 
     connexions.add(new Connexion(m, g));

@@ -1,14 +1,14 @@
 package Menus;
 
-import model.Reseau;
 import java.util.Scanner;
+import model.Reseau;
 
 public class Menu2 {
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
 
         while (running) {
-            System.out.println("\nMenu 2 :");
+            System.out.println("Menu 2 :");
             System.out.println("1) Calculer le coût du réseau électrique actuel");
             System.out.println("2) Modifier une connexion");
             System.out.println("3) Afficher le réseau");
