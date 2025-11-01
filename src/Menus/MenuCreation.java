@@ -32,7 +32,6 @@ public class MenuCreation {
                     String nom = sc.next();
                     try{
                         int cap = sc.nextInt();
-                        if (cap < 0) throw new IllegalArgumentException("Erreur: Un générateur ne peut pas avoir une capacite negative.");
                         reseau.ajouterGenerateur(nom, cap);
                     }catch(InputMismatchException e){ //Si l'utilisateur n'entre un entier
                         System.err.println("Erreur: Entier non detecte. Veuillez entrer un entier");

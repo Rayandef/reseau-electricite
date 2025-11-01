@@ -26,6 +26,7 @@ public class Reseau {
 
     public void ajouterGenerateur(String nom, int capacite) {
         Generateur alreadyExist = generateurs.get(nom);
+        if (capacite < 0) throw new IllegalArgumentException("Erreur: Un générateur ne peut pas avoir une capacite negative.");
         if (alreadyExist != null) {
             alreadyExist.setCapacite(capacite);
             System.out.println("Générateur " + nom + " mis à jour (nouvelle capacité : " + capacite + " kW)");
@@ -106,8 +107,7 @@ public class Reseau {
         ancienneConnexion.setMaison(nouvelleMaison);
         ancienneConnexion.setGenerateur(nouveauGenerateur);
         nouvelleMaison.setConnected(nouvelleMaison.getConnected() + 1);
-        System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() +
-                        " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
+        System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() + " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
     }
 
 
