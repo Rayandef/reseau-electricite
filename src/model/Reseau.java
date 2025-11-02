@@ -68,8 +68,8 @@ public class Reseau {
     }
 
     public void changerConnexion(String ancienA, String ancienB, String nouveauA, String nouveauB) {
-        Maison ancienneMaison = null, nouvelleMaison = null;
-        Generateur ancienGenerateur = null, nouveauGenerateur = null;
+        Maison ancienneMaison, nouvelleMaison;
+        Generateur ancienGenerateur, nouveauGenerateur;
         if (maisons.containsKey(ancienA) && generateurs.containsKey(ancienB)) {
             ancienneMaison = maisons.get(ancienA);
             ancienGenerateur = generateurs.get(ancienB);
@@ -77,8 +77,7 @@ public class Reseau {
             ancienneMaison = maisons.get(ancienB);
             ancienGenerateur = generateurs.get(ancienA);
         } else {
-            System.out.println(" Erreur : ancienne connexion invalide (" + ancienA + ", " + ancienB + ")");
-            return;
+            throw new IllegalArgumentException("Ancienne connexion invalide (" + ancienA + ", " + ancienB + ")");
         }
 
         if (maisons.containsKey(nouveauA) && generateurs.containsKey(nouveauB)) {
@@ -88,8 +87,7 @@ public class Reseau {
             nouvelleMaison = maisons.get(nouveauB);
             nouveauGenerateur = generateurs.get(nouveauA);
         } else {
-            System.out.println(" Erreur : nouvelle connexion invalide (" + nouveauA + ", " + nouveauB + ")");
-            return;
+            throw new IllegalArgumentException("Nouvelle connexion invalide (" + nouveauA + ", " + nouveauB + ")");
         }
         Connexion ancienneConnexion = null;
         for (Connexion c : connexions) {
@@ -100,8 +98,7 @@ public class Reseau {
         }
 
         if (ancienneConnexion == null) {
-            System.out.println("  Aucune connexion trouvée entre " + ancienA + " et " + ancienB);
-            return;
+            throw new IllegalArgumentException("Aucune connexion trouvée entre " + ancienA + " et " + ancienB);
         }
         ancienneConnexion.getMaison().setConnected(ancienneConnexion.getMaison().getConnected() - 1);
         ancienneConnexion.setMaison(nouvelleMaison);
