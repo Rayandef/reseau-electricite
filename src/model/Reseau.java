@@ -107,6 +107,22 @@ public class Reseau {
         System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() + " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
     }
 
+    public void supprimerConnexion(String nomA, String nomB) {
+        Connexion connexion = null;
+        for (Connexion c : connexions) {
+            if (c.getMaison().getNom().equals(nomA) && c.getGenerateur().getNom().equals(nomB)) {
+                connexion = c;
+                break;
+            }
+        }
+
+        if (connexion != null) {
+            connexion.getMaison().setConnected(connexion.getMaison().getConnected() - 1);
+            connexions.remove(connexion);
+        } else {
+            throw new IllegalArgumentException("Aucune connexion trouvée entre " + nomA + " et " + nomB);
+        }
+    }
 
     public void calculerCout() {
         CalculateurCout.calculer(this);

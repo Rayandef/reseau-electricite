@@ -1,4 +1,4 @@
-package Menus;
+package menus;
 
 import java.util.Scanner;
 import model.Reseau;

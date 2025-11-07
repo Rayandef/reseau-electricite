@@ -1,4 +1,4 @@
-package Menus;
+package menus;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Maison;
@@ -14,7 +14,8 @@ public class MenuCreation {
                 System.out.println("1) Ajouter un générateur");
                 System.out.println("2) Ajouter une maison");
                 System.out.println("3) Ajouter une connexion");
-                System.out.println("4) Passer au recapitulatif");
+                System.out.println("4) Supprimer une connexion");
+                System.out.println("5) Passer au recapitulatif");
                 System.out.print("Choix : ");
 
                 int choix;
@@ -68,6 +69,16 @@ public class MenuCreation {
                         }
                     }
                     case 4 -> {
+                        System.out.print("Connexion à supprimer (ex: M1 G1) : ");
+                        String a = sc.next();
+                        String b = sc.next();
+                        try{
+                            reseau.supprimerConnexion(a,b);
+                        }catch(IllegalArgumentException e){
+                            System.err.println("Erreur : impossible de supprimer la connexion (" + a + ", " + b + ")" + e.getMessage());
+                        }
+                    }
+                    case 5 -> {
                         try{
                             if (reseau.getGenerateurs().isEmpty() && reseau.getMaisons().isEmpty()){
                                 throw new IllegalStateException("L'ajout de generateur et de maison est obligatoire");

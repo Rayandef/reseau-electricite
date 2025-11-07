@@ -1,4 +1,4 @@
-import Menus.*;
+import menus.*;
 import java.util.Scanner;
 import model.*;
 
