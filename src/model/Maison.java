@@ -18,6 +18,7 @@ public class Maison {
         }
     }
 
+    //Getters et setters des différents attributs de la maison
     public String getNom(){ 
         return nom; 
     }
@@ -42,6 +43,8 @@ public class Maison {
         this.connected = connected;
     }
 
+    /*Réecriture de la méthode equals qui permet de savoir si l'instance de la maison 
+    est égale à celle qui est passée en argument*/
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,6 +53,7 @@ public class Maison {
         return (consommation == maison.consommation) && Objects.equals(nom, maison.nom);
     }
 
+    //Réecriture de la méthtode toString qui permet de retourner le nom et la consommation d'une maison
     @Override
     public String toString() {
         return nom + " (" + consommation + " kW)";

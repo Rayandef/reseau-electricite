@@ -10,6 +10,7 @@ public class Connexion {
         this.maison.setConnected(this.maison.getConnected() + 1);
     }
 
+    //Getter et setter des différents attributs de Connexion
     public Maison getMaison(){ 
         return maison; 
     }
@@ -25,8 +26,9 @@ public class Connexion {
     public void setMaison(Maison maison) {
         this.maison = maison;
     }
+
+    //La réecriture de la méthode toString qui permet de retourner une connexion entre une maison et un générateur
     @Override
-    
     public String toString() {
         return maison.getNom() + " <-> " + generateur.getNom();
     }

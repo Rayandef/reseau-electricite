@@ -9,6 +9,7 @@ public class Generateur {
         this.capaciteMax = capaciteMax;
     }
 
+    //Getter et setter des attributs de Generateur
     public String getNom(){ 
         return nom; 
     }
@@ -25,6 +26,7 @@ public class Generateur {
         this.capaciteMax = capaciteMax;
     }
 
+    //La réecriture de la méthode toString qui permet d'écrire le nom et la capacité du générateur
     @Override
     public String toString() {
         return nom + " (" + capaciteMax + " kW max)";

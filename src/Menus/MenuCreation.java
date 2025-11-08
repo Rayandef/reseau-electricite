@@ -5,11 +5,13 @@ import model.Maison;
 import model.Reseau;
 
 public class MenuCreation {
+    //Crée et gère l'interface de départ
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
 
         try{
             while (running) {
+                //Génère l'interface dans le terminal
                 System.out.println("Menu principal :");
                 System.out.println("1) Ajouter un générateur");
                 System.out.println("2) Ajouter une maison");
@@ -19,6 +21,7 @@ public class MenuCreation {
                 System.out.print("Choix : ");
 
                 int choix;
+                //On vérifie que choix est bien un entier
                 if (sc.hasNextInt()) {
                     choix = sc.nextInt();
                     sc.nextLine(); 
@@ -29,7 +32,7 @@ public class MenuCreation {
                 }
 
                 switch (choix) {
-                    case 1 -> {
+                    case 1 -> { //Ajout de générateur
                         System.out.print("Nom et capacité (ex: G1 60) : ");
                         String nom = sc.next();
                         try{
@@ -43,18 +46,20 @@ public class MenuCreation {
                             sc.nextLine();
                         }
                     }
-                    case 2 -> {
+                    case 2 -> { //Ajout de maison
                         System.out.print("Nom et type (ex: M1 NORMALE) : ");
                         System.out.println("(Types possibles : BASSE, NORMALE, FORTE)");
                         String nom = sc.next();
                         String type = sc.next();
-                        try {
+                        try { //On essaye d'ajouter la maison
                             reseau.ajouterMaison(nom, type);
-                        } catch (IllegalArgumentException e) {
+                        } catch (IllegalArgumentException e) { //Si l'utilisateur a entré autre chose que les types BASSE, NORMALE, FORTE
                             System.err.println("Erreur lors de l'ajout de la maison : " + e.getMessage());
+                        }finally{ //On nettoie le scanner
+                            sc.nextLine();
                         }
                     }
-                    case 3 -> {
+                    case 3 -> { //Ajout d'une connexion
                         System.out.print("Connexion (ex: M1 G1) : ");
                         String a = sc.next();
                         String b = sc.next();
@@ -64,21 +69,27 @@ public class MenuCreation {
                             }else{
                                 reseau.ajouterConnexion(b, a);
                             }
-                        }catch(IllegalArgumentException e){
+                        }catch(IllegalArgumentException e){ //Si la maison ou le générateur n'existe pas
                             System.err.println("Erreur : impossible de créer la connexion (" + a + ", " + b + ")" + e.getMessage());
+                        }finally{
+                            sc.nextLine();
                         }
                     }
-                    case 4 -> {
+                    case 4 -> { //Suppression de connexion
                         System.out.print("Connexion à supprimer (ex: M1 G1) : ");
                         String a = sc.next();
                         String b = sc.next();
                         try{
                             reseau.supprimerConnexion(a,b);
-                        }catch(IllegalArgumentException e){
+                        }catch(IllegalArgumentException e){  //Si la connexion n'existe pas
                             System.err.println("Erreur : impossible de supprimer la connexion (" + a + ", " + b + ")" + e.getMessage());
+                        }finally{
+                            sc.nextLine();
                         }
                     }
                     case 5 -> {
+                        /*On vérifie qu'il y ait bien des maisons, des générateurs et au moins une connection entre un générateur et 
+                        une maison avant de passer au menu suivant.*/
                         try{
                             if (reseau.getGenerateurs().isEmpty() && reseau.getMaisons().isEmpty()){
                                 throw new IllegalStateException("L'ajout de generateur et de maison est obligatoire");
@@ -101,6 +112,7 @@ public class MenuCreation {
                             System.err.println("Erreur: " + e.getMessage());
                         }
                     }
+                    //Si l'utilisateur a entré autre chose que les entiers 1 2 3 4 5
                     default -> throw new IllegalArgumentException("Veuillez entrer un entier présent dans le menu.");
                 }
             }

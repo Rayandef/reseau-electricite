@@ -1,5 +1,5 @@
-import menus.*;
 import java.util.Scanner;
+import menus.*;
 import model.*;
 
 public class Main {
@@ -7,8 +7,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Reseau reseau = new Reseau();
         MenuCreation.afficherMenu(sc, reseau);
-        reseau.afficherReseau();
-        reseau.calculerCout();
         Menu2.afficherMenu(sc, reseau);
         sc.close();
     }
