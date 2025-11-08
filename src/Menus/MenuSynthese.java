@@ -3,7 +3,7 @@ package menus;
 import java.util.Scanner;
 import model.Reseau;
 
-public class Menu2 {
+public class MenuSynthese {
     //Affichage de la deuxième interface
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;

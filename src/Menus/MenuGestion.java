@@ -4,7 +4,7 @@ import java.util.Scanner;
 import model.Maison;
 import model.Reseau;
 
-public class MenuCreation {
+public class MenuGestion {
     //Crée et gère l'interface de départ
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;

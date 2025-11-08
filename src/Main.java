@@ -6,8 +6,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Reseau reseau = new Reseau();
-        MenuCreation.afficherMenu(sc, reseau);
-        Menu2.afficherMenu(sc, reseau);
+        MenuGestion.afficherMenu(sc, reseau);
+        MenuSynthese.afficherMenu(sc, reseau);
         sc.close();
     }
 }
