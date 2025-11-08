@@ -2,43 +2,64 @@
 
 ## Présentation
 
-L’objectif est de modéliser un réseau électrique simplifié composé de maisons (consommateurs) et de générateurs, puis de permettre
-la création manuelle du réseau et le calcul de son coût selon les critères d’équilibre et de surcharge.
+Ce projet vise à **modéliser un réseau électrique simplifié**, composé de générateurs et de maisons reliés entre eux par des connexions.  
+L’utilisateur peut **créer manuellement un réseau**, **visualiser sa structure** et **calculer son coût** en fonction de critères de dispersion et de surcharge.
+
+---
 
 ## Structure du projet
 
 ```
 reseau-electricite/
  ├── src/
- │   ├── Main.java
+ │   ├── Menus/
+ │   │   ├── MenuGestion.java
+ │   │   └── MenuSynthese.java
  │   ├── model/
- │   │   ├── Maison.java
- │   │   ├── Generateur.java
  │   │   ├── Connexion.java
+ │   │   ├── Generateur.java
+ │   │   ├── Maison.java
  │   │   └── Reseau.java
- │   └── utils/
- │       └── CalculateurCout.java
+ │   ├── utils/
+ │   │   └── CalculateurCout.java
+ │   └── Main.java
  └── README.md
 ```
+
+## Préréquis
+
+Les programmes étant rédigés en **Java**, il est nécessaire d’avoir un **compilateur Java** installé sur votre système :
+
+- **Windows** : installer [MinGW](https://osdn.net/projects/mingw/releases/)  
+- **Linux (Debian/Ubuntu)** :  
+  ```bash
+  sudo apt install build-essential
+  ```
+- **macOS** :  
+  ```bash
+  xcode-select --install
+  ```
+
 
 ## Compilation et exécution
 
 ### Depuis un terminal
 
 1. Se placer dans le dossier `src` :
-   ```
+   ```bash
    cd src
    ```
 
 2. Compiler :
-   ```
-   javac Main.java model/*.java utils/*.java
+   ```bash
+   javac Main.java Menus/*.java model/*.java utils/*.java
    ```
 
 3. Exécuter :
-   ```
+   ```bash
    java Main
    ```
+
 
 ### Depuis un IDE
 Importer le dossier `reseau-electricite` comme projet Java et exécuter la classe `Main`.
@@ -47,7 +68,7 @@ Importer le dossier `reseau-electricite` comme projet Java et exécuter la class
 
 - Ajout de générateurs avec leur capacité maximale.
 - Ajout de maisons selon trois types de consommation : basse (10 kW), normale (20 kW), forte (40 kW).
-- Création de connexions entre maisons et générateurs existants.
+- Gestion des relations entre maisons et générateurs existants.
 - Affichage du réseau configuré.
 - Calcul du coût du réseau à l’aide des formules de dispersion et de surcharge (λ = 10).
 
@@ -67,7 +88,8 @@ Disp(S)=0.167, Surcharge(S)=0.000, Cout(S)=0.167
 
 ## Auteurs
 
-- DEFOOR Rayan
-- LALLOUET Ronan
-- CHEN Kévin
+- **Rayan Defoor**
+- **Ronan Lallouet**
+- **Kévin Chen**
+
 
