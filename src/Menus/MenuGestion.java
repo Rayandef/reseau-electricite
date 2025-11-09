@@ -4,8 +4,36 @@ import java.util.Scanner;
 import model.Maison;
 import model.Reseau;
 
+/**
+ * Cette classe ({@code MenuGestion}) permet de gérer les différents éléments du premier menu.  
+ * <p>
+ * Elle permet à l'utilisateur d'ajouter des générateurs, des maisons et de
+ * créer ou supprimer des connexions entre maisons et générateurs.
+ */
 public class MenuGestion {
-    //Crée et gère l'interface de départ
+     /**
+     * Affiche le menu principal et gère les actions saisies par l'utilisateur.     *
+     * <p>Le menu propose les options suivantes :</p>
+     * <ul>
+     *     <li>1) Ajouter un générateur</li>
+     *     <li>2) Ajouter une maison</li>
+     *     <li>3) Ajouter une connexion</li>
+     *     <li>4) Supprimer une connexion</li>
+     *     <li>5) Passer au récapitulatif</li>
+     * </ul>
+     *
+     * <p>
+     * Des vérifications de validité sont effectuées sur les entrées utilisateur
+     * ainsi que sur l'état du réseau, avec gestion d'exceptions adaptées :
+     * <ul>
+     *     <li>{@link InputMismatchException} si un entier est attendu lors du choix de l'action de l'utilisateur</li>
+     *     <li>{@link IllegalArgumentException} si les paramètres fournis ne sont pas valides</li>
+     *     <li>{@link IllegalStateException} si le réseau n'est pas correctement configuré avant validation</li>
+     * </ul>
+     *
+     * @param sc     le scanner utilisé pour lire les entrées utilisateur
+     * @param reseau le réseau dans lequel les éléments sont ajoutés et modifiés
+     */
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
 

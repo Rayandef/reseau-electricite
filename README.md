@@ -85,6 +85,10 @@ Connexions :
 
 Disp(S)=0.167, Surcharge(S)=0.000, Cout(S)=0.167
 ```
+## Documentation
+
+La documentation complète du projet (Javadoc) est trouvable en ouvrant le fichier doc/index.html
+
 
 ## Auteurs
 

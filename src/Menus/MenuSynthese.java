@@ -3,11 +3,44 @@ package menus;
 import java.util.Scanner;
 import model.Reseau;
 
+/**
+ * Cette classe ({@code MenuSynthese}) permet de gérer les éléments du second menu.
+ * <p>
+ * Elle permet à l'utilisateur de modifier des connexions, voir l'état du réseau et calcul le coût du réseau actuel.
+ */
 public class MenuSynthese {
+     /**
+     * Affiche le menu de synthèse et exécute les actions correspondant
+     * aux choix de l'utilisateur.
+     * <p>
+     * Le menu propose les options suivantes :
+     * <ul>
+     *     <li>Calculer le coût du réseau : utilise la méthode
+     *         {@link Reseau#calculerCout()} pour afficher le coût total.</li>
+     *     <li>Modifier une connexion : permet à l'utilisateur
+     *         de remplacer une connexion existante par une nouvelle via
+     *         {@link Reseau#changerConnexion(String, String, String, String)}.</li>
+     *     <li>Afficher le réseau : visualisation du réseau
+     *         grâce à {@link Reseau#afficherReseau()}.</li>
+     *     <li>Quitter : met fin au programme.</li>
+     * </ul>
+     *
+     * <p>
+     * Cette méthode valide également les entrées utilisateur afin d'éviter les
+     * saisies non numériques, et capture les exceptions courantes :
+     * </p>
+     * <ul>
+     *     <li>{@link IllegalArgumentException} si les valeurs saisies ne
+     *         correspondent pas à une option valide ou à une connexion existante</li>
+     * </ul>
+     *
+     * @param sc     le scanner permettant de lire les entrées utilisateur
+     * @param reseau l'objet {@link Reseau} sur lequel les opérations seront effectuées
+     */
+
     //Affichage de la deuxième interface
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
-
         try{
             while (running) {
                 //Genere l'interface dans le terminal

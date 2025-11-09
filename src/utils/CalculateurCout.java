@@ -3,9 +3,50 @@ package utils;
 import java.util.*;
 import model.*;
 
+/**
+ * La classe {@code CalculateurCout} fournit les outils permettant d'évaluer
+ * le coût d'un réseau électrique en fonction de la répartition des charges
+ * entre les générateurs.
+ * <p>
+ * Le coût total prend en compte deux grandeurs :
+ * <ul>
+ *     <li>la dispersion des niveaux d'utilisation des générateurs,</li>
+ *     <li>la surcharge des générateurs dépassant leur capacité maximale.</li>
+ * </ul>
+ * Ces valeurs sont combinées selon la formule : Coût(S) = Dispersion(S) + LAMBDA × Surcharge(S)
+ *
+ * où {@code LAMBDA} est un coefficient fixé à {@code 10}.
+ */
 public class CalculateurCout {
     public static final int LAMBDA = 10;
-
+    /**
+     * Calcule et affiche le coût du réseau passé en paramètre.
+     *
+     * <p>Le calcul se déroule en plusieurs étapes :</p>
+     *
+     * <ol>
+     *   <li>Calcul de la charge de chaque générateur (somme des consommations des maisons connectées).</li>
+     *   <li>Calcul du taux d'utilisation de chaque générateur :
+     *   u = charge / capacité_max
+     *   </li>
+     *   <li>Calcul de l'utilisation moyenne.</li>
+     *   <li>Calcul de la dispersion :
+     *       Dispersion = &Sigma; |u_i - moyenne|
+     *   </li>
+     *   <li>Calcul de la surcharge :
+     *       Surcharge = &Sigma; max(0, u_i - 1)
+     *   </li>
+     *   <li>Calcul du coût :
+     *       Coût = dispersion + LAMBDA × surcharge
+     *   </li>
+     * </ol>
+     *
+     * <p>
+     * Le résultat est ensuite affiché sous la forme :  
+     * Disp(S)=X, Surcharge(S)=Y, Cout(S)=Z
+     *
+     * @param reseau le réseau dont il faut calculer le coût
+     */
     public static void calculer(Reseau reseau) {
         Map<Generateur, Integer> charge = new HashMap<>();
 

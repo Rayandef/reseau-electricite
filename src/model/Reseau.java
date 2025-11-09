@@ -3,11 +3,37 @@ package model;
 import java.util.*;
 import utils.CalculateurCout;
 
+/**
+ * Cette classe ({@code Reseau}) représente un réseau électrique composé de maisons,
+ * de générateurs et de connexions entre eux.
+ * <p>
+ * Elle permet :
+ * <ul>
+ *     <li>d'ajouter ou mettre à jour des maisons,</li>
+ *     <li>d'ajouter ou mettre à jour des générateurs,</li>
+ *     <li>de créer, modifier ou supprimer des connexions,</li>
+ *     <li>d'afficher le réseau entier,</li>
+ *     <li>de calculer le coût global via {@link CalculateurCout}.</li>
+ * </ul>
+ */
+
 public class Reseau {
+    /** Ensemble des maisons du réseau, indexées par leur nom. */
     private Map<String, Maison> maisons = new HashMap<>();
+
+    /** Ensemble des générateurs du réseau, indexés par leur nom. */
     private Map<String, Generateur> generateurs = new HashMap<>();
+
+    /** Liste des connexions entre les maisons et les générateurs. */
     private List<Connexion> connexions = new ArrayList<>();
 
+    /**
+     * Ajoute une maison au réseau ou met à jour sa consommation si elle existe déjà.
+     *
+     * @param nom  nom de la maison
+     * @param type type de consommation (BASSE, NORMALE, NORMAL, FORTE)
+     * @throws IllegalArgumentException si le type de consommation est inconnu
+     */
     public void ajouterMaison(String nom, String type) {
         Maison alreadyExist = maisons.get(nom);
         if (alreadyExist != null) {
@@ -24,6 +50,13 @@ public class Reseau {
         }
     }
 
+    /**
+     * Ajoute un générateur ou met à jour sa capacité s'il existe déjà.
+     *
+     * @param nom       nom du générateur
+     * @param capacite  capacité maximale en kW
+     * @throws IllegalArgumentException si la capacité est négative
+     */
     public void ajouterGenerateur(String nom, int capacite) {
         Generateur alreadyExist = generateurs.get(nom);
         //Si le générateur a une valeur négative, alors on renvoie une erreur
@@ -37,6 +70,16 @@ public class Reseau {
         System.out.println("Générateur " + nom + " ajouté.");
     }
 
+    /**
+     * Ajoute une connexion entre une maison et un générateur.
+     * <p>
+     * L'ordre des paramètres n'a pas d'importance : la méthode détecte 
+     * automatiquement qui est la maison et qui est le générateur.     *
+     * @param nomA nom d'une maison ou d'un générateur
+     * @param nomB nom d'une maison ou d'un générateur
+     * @throws IllegalArgumentException si l'un des noms ne correspond pas
+     *         à une maison ou à un générateur
+     */
     public void ajouterConnexion(String nomA, String nomB) {
         Maison m;
         Generateur g;
@@ -60,6 +103,9 @@ public class Reseau {
     System.out.println("Connexion ajoutée entre " + m.getNom() + " et " + g.getNom());
 }
 
+    /**
+     * Affiche l'ensemble du réseau dans le terminal la liste des générateurs, maisons et connexions.
+     */
     public void afficherReseau() { //On affiche le réseau électrique 
         System.out.println("\n--- Réseau électrique ---");
         System.out.println("Générateurs : " + generateurs.values());
@@ -68,6 +114,16 @@ public class Reseau {
         connexions.forEach(c -> System.out.println("  " + c));
     }
 
+    /**
+     * Modifie une connexion existante pour la remplacer par une nouvelle.
+     *
+     * @param ancienA  ancien nom (maison ou générateur)
+     * @param ancienB  ancien nom (maison ou générateur)
+     * @param nouveauA nouveau nom (maison ou générateur)
+     * @param nouveauB nouveau nom (maison ou générateur)
+     * @throws IllegalArgumentException si l'ancienne connexion n'existe pas
+     *                                  ou si les nouveaux noms sont invalides
+     */
     public void changerConnexion(String ancienA, String ancienB, String nouveauA, String nouveauB) {
         Maison ancienneMaison, nouvelleMaison;
         Generateur ancienGenerateur, nouveauGenerateur;
@@ -110,6 +166,13 @@ public class Reseau {
         System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() + " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
     }
 
+    /**
+     * Supprime une connexion entre une maison et un générateur.
+     * Décrémente le nombre de connexions de la maison.
+     * @param nomA nom de la maison
+     * @param nomB nom du générateur
+     * @throws IllegalArgumentException si aucune connexion ne correspond aux noms fournis
+     */
     public void supprimerConnexion(String nomA, String nomB) {
         Connexion connexion = null;
         for (Connexion c : connexions) { //On cherche si la connexion entre nomA et nomB existe
@@ -127,19 +190,37 @@ public class Reseau {
         }
     }
 
+    /**
+     * Calcule et affiche le coût total du réseau en utilisant {@link CalculateurCout}.
+     */
     public void calculerCout() {
         CalculateurCout.calculer(this);
     }
 
     //Getters et setters des différents attributs de Reseau
+    /**
+     * Retourne la collection des maisons du réseau.
+     *
+     * @return une map des maisons indexées par nom
+     */
     public Map<String, Maison> getMaisons(){ 
         return maisons; 
     }
 
+    /**
+     * Retourne la collection des générateurs du réseau.
+     *
+     * @return une map des générateurs indexés par nom
+     */
     public Map<String, Generateur> getGenerateurs(){ 
         return generateurs; 
     }
 
+    /**
+     * Retourne la liste des connexions du réseau.
+     *
+     * @return une liste des connexions
+     */
     public List<Connexion> getConnexions(){ 
         return connexions; 
     }
