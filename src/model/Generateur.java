@@ -14,6 +14,8 @@ public class Generateur {
     /** Capacité maximale de production (en kW). */
     private int capaciteMax;
 
+    /** Charge actuelle du générateur */
+    private int charge;
     /**
      * Construit un générateur électrique avec un nom et une capacité maximale.
      *
@@ -44,6 +46,14 @@ public class Generateur {
     }
 
     /**
+     * Retourne la charge actuelle du générateur
+     * @return La charge générateur
+     */
+    public int getCharge(){
+        return this.charge;
+    }
+
+    /**
      * Modifie le nom du générateur.
      *
      * @param nom le nouveau nom
@@ -62,6 +72,14 @@ public class Generateur {
     }
 
     /**
+     * Modifie la charge du générateur
+     * @param consommations
+     */
+    public void setCharge(int consommations){
+        this.charge += consommations;
+    }
+
+    /**
      * Retourne une description textuelle du générateur sous la forme :
      * <pre>
      *     Nom (X kW max)
@@ -71,6 +89,6 @@ public class Generateur {
      */
     @Override
     public String toString() {
-        return nom + " (" + capaciteMax + " kW max)";
+        return nom + " (" + capaciteMax + " kW max)" + "Charge actuelle " + charge + "kW";
     }
 }
