@@ -41,8 +41,9 @@ public class MenuSynthese {
     //Affichage de la deuxième interface
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
-        try{
+        
             while (running) {
+                try{
                 //Genere l'interface dans le terminal
                 System.out.println("Menu 2 :");
                 System.out.println("1) Calculer le coût du réseau électrique actuel");
@@ -96,9 +97,10 @@ public class MenuSynthese {
                      //Si l'utilisateur a entré autre chose que 1 2 3 4
                     default ->  throw new IllegalArgumentException("Veuillez entrer un entier présent dans le menu.");
                     }
+                    
+                    }catch (IllegalArgumentException e){
+                        System.err.println("Erreur: " + e.getMessage());
+                    }
                 }
-        }catch (IllegalArgumentException e){
-            System.err.println("Erreur: " + e.getMessage());
-        }
     }
 }

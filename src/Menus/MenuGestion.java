@@ -37,8 +37,9 @@ public class MenuGestion {
     public static void afficherMenu(Scanner sc, Reseau reseau) {
         boolean running = true;
 
-        try{
+       
             while (running) {
+                try{
                 //Génère l'interface dans le terminal
                 System.out.println("Menu principal :");
                 System.out.println("1) Ajouter un générateur");
@@ -143,9 +144,9 @@ public class MenuGestion {
                     //Si l'utilisateur a entré autre chose que les entiers 1 2 3 4 5
                     default -> throw new IllegalArgumentException("Veuillez entrer un entier présent dans le menu.");
                 }
+                }catch(IllegalArgumentException e){
+                    System.err.println("Erreur: " + e.getMessage());
+                }
             }
-        }catch(IllegalArgumentException e){
-            System.err.println("Erreur: " + e.getMessage());
-        }
     }
 }
