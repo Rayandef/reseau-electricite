@@ -12,7 +12,7 @@ L’utilisateur peut **créer manuellement un réseau**, **visualiser sa structu
 ```
 reseau-electricite/
  ├── src/
- │   ├── Menus/
+ │   ├── menus/
  │   │   ├── MenuGestion.java
  │   │   └── MenuSynthese.java
  │   ├── model/
