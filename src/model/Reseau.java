@@ -100,6 +100,7 @@ public class Reseau {
     }
 
     connexions.add(new Connexion(m, g)); //On ajoute la paire m,g dans connexion 
+    g.setCharge(m.getConsommation()); //On ajoute la consommation de la maison à la charge du générateur
     System.out.println("Connexion ajoutée entre " + m.getNom() + " et " + g.getNom());
 }
 
@@ -160,6 +161,7 @@ public class Reseau {
         }
         //Sinon on décrémente la connexion entre ces maisons, on crée une nouvelle connexion entre nouveauA et nouveauB
         ancienneConnexion.getMaison().setConnected(ancienneConnexion.getMaison().getConnected() - 1);
+        ancienneConnexion.getGenerateur().setCharge(-ancienneConnexion.getMaison().getConsommation());
         ancienneConnexion.setMaison(nouvelleMaison);
         ancienneConnexion.setGenerateur(nouveauGenerateur);
         nouvelleMaison.setConnected(nouvelleMaison.getConnected() + 1);
@@ -184,6 +186,7 @@ public class Reseau {
 
         if (connexion != null) { //Si elle existe alors on retire la connexion
             connexion.getMaison().setConnected(connexion.getMaison().getConnected() - 1);
+            connexion.getGenerateur().setCharge(-connexion.getMaison().getConsommation());
             connexions.remove(connexion);
         } else { //Sinon on renvoie une erreur
             throw new IllegalArgumentException("Aucune connexion trouvée entre " + nomA + " et " + nomB);
