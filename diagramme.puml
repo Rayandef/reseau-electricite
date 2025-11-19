@@ -1,0 +1,78 @@
+@startuml
+
+class Main {
+    +main(args)
+}
+
+class MenuGestion {
+    +afficherMenu(sc, reseau)
+}
+
+class MenuSynthese {
+    +afficherMenu(sc, reseau)
+}
+
+class Reseau {
+    - maisons : Map<String, Maison>
+    - generateurs : Map<String, Generateur>
+    - connexions : List<Connexion>
+    --
+    + ajouterMaison(nom, type)
+    + ajouterGenerateur(nom, cap)
+    + ajouterConnexion(a, b)
+    + changerConnexion(ancienA, ancienB, nouveauA, nouveauB)
+    + supprimerConnexion(nomMaison, nomGen)
+    + afficherReseau()
+    + calculerCout()
+}
+
+class CalculateurCout <<utility>> {
+    +LAMBDA = 10
+    +calculer(reseau)
+}
+
+class Connexion {
+    - maison : Maison
+    - generateur : Generateur
+    --
+    +Connexion(maison, generateur)
+    +getMaison()
+    +getGenerateur()
+}
+
+class Maison {
+    - nom : String
+    - consommation : int
+    - connected : int
+    --
+    +Maison(nom, type)
+    +getNom()
+    +getConsommation()
+    +getConnected()
+}
+
+class Generateur {
+    - nom : String
+    - capaciteMax : int
+    --
+    +Generateur(nom, capaciteMax)
+    +getNom()
+    +getCapaciteMax()
+}
+
+Main --> MenuGestion
+Main --> MenuSynthese
+
+MenuGestion --> Reseau
+MenuSynthese --> Reseau
+
+Reseau *-- Maison
+Reseau *-- Generateur
+Reseau *-- Connexion
+
+Connexion --> Maison
+Connexion --> Generateur
+
+Reseau ..> CalculateurCout
+
+@enduml

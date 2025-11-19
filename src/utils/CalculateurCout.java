@@ -77,4 +77,17 @@ public class CalculateurCout {
         double cout = dispersion + LAMBDA * surcharge;
         System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", dispersion, surcharge, cout);
     }
+
+    public double getDispertion(List<Generateur> G){
+        double moyG,disp = 0;
+        int u = 0;
+        for (Generateur g : G) {
+            u += g.getCapaciteMax();
+        }
+        moyG = u/G.size();
+        for (Generateur g : G) {
+            disp += Math.abs(g.getCapaciteMax() - moyG);
+        }
+        return disp;
+    }
 }
