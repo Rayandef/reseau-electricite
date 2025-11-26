@@ -1,4 +1,5 @@
 package menus;
+import exception.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Maison;
@@ -28,7 +29,8 @@ public class MenuGestion {
      * <ul>
      *     <li>{@link InputMismatchException} si un entier est attendu lors du choix de l'action de l'utilisateur</li>
      *     <li>{@link IllegalArgumentException} si les paramètres fournis ne sont pas valides</li>
-     *     <li>{@link IllegalStateException} si le réseau n'est pas correctement configuré avant validation</li>
+     *     <li>{@link ComposantException} s'il l'utilisateur entre des données incorrects pour un un générateur ou une maison</li>
+     *     <li>{@link ComposantException} si le réseau n'est pas correctement configuré avant validation</li>
      * </ul>
      *
      * @param sc     le scanner utilisé pour lire les entrées utilisateur
@@ -82,7 +84,7 @@ public class MenuGestion {
                         String type = sc.next();
                         try { //On essaye d'ajouter la maison
                             reseau.ajouterMaison(nom, type);
-                        } catch (IllegalArgumentException e) { //Si l'utilisateur a entré autre chose que les types BASSE, NORMALE, FORTE
+                        } catch (ComposantException e) { //Si l'utilisateur a entré autre chose que les types BASSE, NORMALE, FORTE
                             System.err.println("Erreur lors de l'ajout de la maison : " + e.getMessage());
                         }finally{ //On nettoie le scanner
                             sc.nextLine();
@@ -98,7 +100,7 @@ public class MenuGestion {
                             }else{
                                 reseau.ajouterConnexion(b, a);
                             }
-                        }catch(IllegalArgumentException e){ //Si la maison ou le générateur n'existe pas
+                        }catch(ConnexionNotFoundException e){ //Si la maison ou le générateur n'existe pas
                             System.err.println("Erreur : impossible de créer la connexion (" + a + ", " + b + ")" + e.getMessage());
                         }finally{
                             sc.nextLine();
@@ -110,7 +112,7 @@ public class MenuGestion {
                         String b = sc.next();
                         try{
                             reseau.supprimerConnexion(a,b);
-                        }catch(IllegalArgumentException e){  //Si la connexion n'existe pas
+                        }catch(ConnexionNotFoundException e){  //Si la connexion n'existe pas
                             System.err.println("Erreur : impossible de supprimer la connexion (" + a + ", " + b + ")" + e.getMessage());
                         }finally{
                             sc.nextLine();
@@ -121,23 +123,23 @@ public class MenuGestion {
                         une maison avant de passer au menu suivant.*/
                         try{
                             if (reseau.getGenerateurs().isEmpty() && reseau.getMaisons().isEmpty()){
-                                throw new IllegalStateException("L'ajout de generateur et de maison est obligatoire");
+                                throw new ComposantException("L'ajout de generateur et de maison est obligatoire");
                             }
                             if(reseau.getMaisons().isEmpty()){
-                                throw new IllegalStateException("L'ajout de maison est obligatoire");
+                                throw new ComposantException("L'ajout de maison est obligatoire");
                             }
                             if (reseau.getGenerateurs().isEmpty()){
-                                throw new IllegalStateException("L'ajout de generateur est obligatoire");
+                                throw new ComposantException("L'ajout de generateur est obligatoire");
                             }
                             for (Maison m : reseau.getMaisons().values()) {
                                 if (m.getConnected() == 0) {
-                                    System.out.println("La maison " + m.getNom() + " n'est connectée à aucun générateur !");
+                                    throw new ComposantException("La maison " + m.getNom() + " n'est connectée à aucun générateur !");
                                 }else if (m.getConnected() > 1) {
-                                    System.out.println("La maison " + m.getNom() + " est connectée à plusieurs générateurs (" + m.getConnected() + ") !");
+                                    throw new ComposantException("La maison " + m.getNom() + " est connectée à plusieurs générateurs (" + m.getConnected() + ") !");
                                 }
                             }
                             running = false;
-                        }catch(IllegalStateException e){
+                        }catch(ComposantException e){
                             System.err.println("Erreur: " + e.getMessage());
                         }
                     }

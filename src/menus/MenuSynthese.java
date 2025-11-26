@@ -1,5 +1,6 @@
 package menus;
 
+import exception.ConnexionNotFoundException;
 import java.util.Scanner;
 import model.Reseau;
 
@@ -79,7 +80,7 @@ public class MenuSynthese {
                         String nouveauB = sc.next();
 
                         reseau.changerConnexion(ancienA, ancienB, nouveauA, nouveauB);
-                        }catch(IllegalArgumentException e){ //Si une erreur est détectée
+                        }catch(ConnexionNotFoundException e){ //Si une erreur est détectée
                             System.err.println("Erreur: " + e.getMessage());
                         }finally{
                             sc.nextLine();

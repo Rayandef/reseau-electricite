@@ -1,5 +1,6 @@
 package model;
 
+import exception.*;
 import java.util.*;
 import utils.CalculateurCout;
 
@@ -32,16 +33,18 @@ public class Reseau {
      *
      * @param nom  nom de la maison
      * @param type type de consommation (BASSE, NORMALE, NORMAL, FORTE)
-     * @throws IllegalArgumentException si le type de consommation est inconnu
+     * @throws ComposantException si le type de consommation est inconnu
      */
-    public void ajouterMaison(String nom, String type) {
+    public void ajouterMaison(String nom, String type) throws ComposantException {
         Maison alreadyExist = maisons.get(nom);
         if (alreadyExist != null) {
             switch (type.toUpperCase()) {
                 case "BASSE" -> alreadyExist.setConsommation(10);
                 case "NORMALE" -> alreadyExist.setConsommation(20);
                 case "FORTE" -> alreadyExist.setConsommation(40);
-                default -> throw new IllegalArgumentException("Type inconnu : " + type);
+                default -> {
+                    throw new ComposantException("Type inconnu : " + type);
+                }
             }
             System.out.println("Maison " + nom + " mise à jour (nouvelle consommation : " + alreadyExist.getConsommation() + " kW)");
         } else {
@@ -80,7 +83,7 @@ public class Reseau {
      * @throws IllegalArgumentException si l'un des noms ne correspond pas
      *         à une maison ou à un générateur
      */
-    public void ajouterConnexion(String nomA, String nomB) {
+    public void ajouterConnexion(String nomA, String nomB) throws ConnexionNotFoundException {
         Maison m;
         Generateur g;
         if (maisons.containsKey(nomA) && generateurs.containsKey(nomB)) { //On regarde si l'utilisateur a mis le nom de la maison ou le nom du générateur d'abord
@@ -91,11 +94,11 @@ public class Reseau {
             g = generateurs.get(nomA);
         } else {
             if(!((maisons.containsKey(nomB))||(generateurs.containsKey(nomB)))){ //Si nomB est ni un générateur ni une maison
-                throw new IllegalArgumentException(nomB + " est ni un generateur, ni une maison");
+                throw new ConnexionNotFoundException(nomB + " est ni un generateur, ni une maison");
             }else if(!(maisons.containsKey(nomA) || generateurs.containsKey(nomA))){ //Si nomA est ni un générateur ni une maison
-                throw new IllegalArgumentException(nomA + " est ni un generateur, ni une maison");
+                throw new ConnexionNotFoundException(nomA + " est ni un generateur, ni une maison");
             }else{
-                throw new IllegalArgumentException(nomA + " " + nomB + " ne sont ni des generateurs, ni des maisons"); //Si aucun des deux est un générateur ou une maison
+                throw new ConnexionNotFoundException(nomA + " " + nomB + " ne sont ni des generateurs, ni des maisons"); //Si aucun des deux est un générateur ou une maison
             }
     }
 
@@ -122,30 +125,30 @@ public class Reseau {
      * @param ancienB  ancien nom (maison ou générateur)
      * @param nouveauA nouveau nom (maison ou générateur)
      * @param nouveauB nouveau nom (maison ou générateur)
-     * @throws IllegalArgumentException si l'ancienne connexion n'existe pas
+     * @throws ConnexionNotFoundException si l'ancienne connexion n'existe pas
      *                                  ou si les nouveaux noms sont invalides
      */
-    public void changerConnexion(String ancienA, String ancienB, String nouveauA, String nouveauB) {
+    public void changerConnexion(String ancienA, String ancienB, String nouveauA, String nouveauB) throws ConnexionNotFoundException {
         Maison ancienneMaison, nouvelleMaison;
         Generateur ancienGenerateur, nouveauGenerateur;
-        if (maisons.containsKey(ancienA) && generateurs.containsKey(ancienB)) { //On vérifie que ancienA et ancienB soient bien une pair de maison / générateur
+        if (maisons.containsKey(ancienA) && generateurs.containsKey(ancienB)) { //On vérifie que ancienA et ancienB soient bien une paire de maison / générateur
             ancienneMaison = maisons.get(ancienA);
             ancienGenerateur = generateurs.get(ancienB);
         } else if (maisons.containsKey(ancienB) && generateurs.containsKey(ancienA)) {
             ancienneMaison = maisons.get(ancienB);
             ancienGenerateur = generateurs.get(ancienA);
         } else { //Si ce n'est pas le cas alors on retourne une erreur
-            throw new IllegalArgumentException("Ancienne connexion invalide (" + ancienA + ", " + ancienB + ")");
+            throw new ConnexionNotFoundException("Ancienne connexion invalide (" + ancienA + ", " + ancienB + ")");
         }
 
-        if (maisons.containsKey(nouveauA) && generateurs.containsKey(nouveauB)) { //On vérifie que nouveauA et nouveauA soient bien une pair de maison / générateur
+        if (maisons.containsKey(nouveauA) && generateurs.containsKey(nouveauB)) { //On vérifie que nouveauA et nouveauA soient bien une paire de maison / générateur
             nouvelleMaison = maisons.get(nouveauA);
             nouveauGenerateur = generateurs.get(nouveauB);
         } else if (maisons.containsKey(nouveauB) && generateurs.containsKey(nouveauA)) {
             nouvelleMaison = maisons.get(nouveauB);
             nouveauGenerateur = generateurs.get(nouveauA);
         } else { //Si ce n'est pas le cas alors on retourne une erreur
-            throw new IllegalArgumentException("Nouvelle connexion invalide (" + nouveauA + ", " + nouveauB + ")");
+            throw new ConnexionNotFoundException("Nouvelle connexion invalide (" + nouveauA + ", " + nouveauB + ")");
         }
         Connexion ancienneConnexion = null;
 
@@ -157,7 +160,7 @@ public class Reseau {
         }
 
         if (ancienneConnexion == null) { //Si elle n'existe pas alors on renvoie une erreur
-            throw new IllegalArgumentException("Aucune connexion trouvée entre " + ancienA + " et " + ancienB);
+            throw new ConnexionNotFoundException("Aucune connexion trouvée entre " + ancienA + " et " + ancienB);
         }
         //Sinon on décrémente la connexion entre ces maisons, on crée une nouvelle connexion entre nouveauA et nouveauB
         ancienneConnexion.getMaison().setConnected(ancienneConnexion.getMaison().getConnected() - 1);
@@ -173,9 +176,9 @@ public class Reseau {
      * Décrémente le nombre de connexions de la maison.
      * @param nomA nom de la maison
      * @param nomB nom du générateur
-     * @throws IllegalArgumentException si aucune connexion ne correspond aux noms fournis
+     * @throws ConnexionNotFoundException si aucune connexion ne correspond aux noms fournis
      */
-    public void supprimerConnexion(String nomA, String nomB) {
+    public void supprimerConnexion(String nomA, String nomB) throws ConnexionNotFoundException {
         Connexion connexion = null;
         for (Connexion c : connexions) { //On cherche si la connexion entre nomA et nomB existe
             if (c.getMaison().getNom().equals(nomA) && c.getGenerateur().getNom().equals(nomB)) {
@@ -189,7 +192,7 @@ public class Reseau {
             connexion.getGenerateur().setCharge(-connexion.getMaison().getConsommation());
             connexions.remove(connexion);
         } else { //Sinon on renvoie une erreur
-            throw new IllegalArgumentException("Aucune connexion trouvée entre " + nomA + " et " + nomB);
+            throw new ConnexionNotFoundException("Aucune connexion trouvée entre " + nomA + " et " + nomB);
         }
     }
 

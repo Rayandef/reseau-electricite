@@ -1,5 +1,6 @@
 package model;
 
+import exception.ComposantException;
 import java.util.Objects;
 
 /**
@@ -24,16 +25,16 @@ public class Maison {
      * Le type peut être : BASSE -&gt; 10 kW, NORMALE -&gt; 20 kW, FORTE -&gt; 40 kW.
      * @param nom  le nom de la maison
      * @param type le type de consommation (BASSE, NORMALE, NORMAL, FORTE)
-     * @throws IllegalArgumentException si le type est inconnu
+     * @throws ComposantException si le type est inconnu
      */
-    public Maison(String nom, String type) {
+    public Maison(String nom, String type) throws ComposantException {
         this.nom = nom;
         this.connected = 0;
         switch (type.toUpperCase()) {
             case "BASSE" -> this.consommation = 10;
             case "NORMALE", "NORMAL" -> this.consommation = 20;
             case "FORTE" -> this.consommation = 40;
-            default -> throw new IllegalArgumentException("Type inconnu : " + type);
+            default -> throw new ComposantException("Type inconnu : " + type);
         }
     }
 
