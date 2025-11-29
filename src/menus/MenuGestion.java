@@ -71,7 +71,7 @@ public class MenuGestion {
                             reseau.ajouterGenerateur(nom, cap);
                         }catch(InputMismatchException e){ //Si l'utilisateur n'entre un entier
                             System.err.println("Erreur: Entier non detecte. Veuillez entrer un entier");
-                        }catch(IllegalArgumentException e){ //Si la capacité du générateur est négatif
+                        }catch(ComposantException e){ //Si la capacité du générateur est négatif
                             System.err.println(e.getMessage()+ " Veuillez recommencer");
                         }finally{ //Nettoie le scanner
                             sc.nextLine();

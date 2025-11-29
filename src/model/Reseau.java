@@ -58,12 +58,12 @@ public class Reseau {
      *
      * @param nom       nom du générateur
      * @param capacite  capacité maximale en kW
-     * @throws IllegalArgumentException si la capacité est négative
+     * @throws ComposantException si la capacité est négative
      */
-    public void ajouterGenerateur(String nom, int capacite) {
+    public void ajouterGenerateur(String nom, int capacite) throws ComposantException{
         Generateur alreadyExist = generateurs.get(nom);
         //Si le générateur a une valeur négative, alors on renvoie une erreur
-        if (capacite < 0) throw new IllegalArgumentException("Erreur: Un générateur ne peut pas avoir une capacite negative.");
+        if (capacite < 0) throw new ComposantException("Erreur: Un générateur ne peut pas avoir une capacite negative.");
             if (alreadyExist != null) {
                 alreadyExist.setCapacite(capacite);
                 System.out.println("Générateur " + nom + " mis à jour (nouvelle capacité : " + capacite + " kW)");
