@@ -4,6 +4,8 @@ import exception.ComposantException;
 import exception.ConnexionNotFoundException;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 public class ReseauTest {
@@ -25,7 +27,7 @@ public class ReseauTest {
         reseau.ajouterGenerateur("G1", 80); // mise à jour
 
         assertEquals(1, reseau.getGenerateurs().size());
-        assertEquals(80, reseau.getGenerateurs().get("G1").getCapaciteMax());
+        assertEquals(80, findGenerateur(reseau.getGenerateurs(), "G1").getCapaciteMax());
     }
 
     @Test(expected = ComposantException.class)
@@ -42,10 +44,10 @@ public class ReseauTest {
         reseau.ajouterConnexion("M1", "G1");
 
         assertEquals(1, reseau.getConnexions().size());
-        Generateur g1 = reseau.getGenerateurs().get("G1");
+        Generateur g1 = findGenerateur(reseau.getGenerateurs(), "G1");
         Maison m1 = reseau.getMaisons().get("M1");
-        assertEquals(20, g1.getCharge());          // charge +20
-        assertEquals(1, m1.getConnected());        // connected +1
+        assertEquals(20, g1.getCharge());
+        assertEquals(1, m1.getConnected());
     }
 
     @Test(expected = ConnexionNotFoundException.class)
@@ -68,9 +70,10 @@ public class ReseauTest {
         Connexion c = reseau.getConnexions().get(0);
         assertEquals("M2", c.getMaison().getNom());
         assertEquals("G2", c.getGenerateur().getNom());
-        assertEquals(0, reseau.getMaisons().get("M1").getConnected()); // décrémentée
-        assertEquals(1, reseau.getMaisons().get("M2").getConnected()); // incrémentée
-        assertEquals(0, reseau.getGenerateurs().get("G1").getCharge()); // charge retirée
+        assertEquals(0, reseau.getMaisons().get("M1").getConnected());
+        assertEquals(1, reseau.getMaisons().get("M2").getConnected());
+        assertEquals(0, findGenerateur(reseau.getGenerateurs(), "G1").getCharge());
+        assertEquals(10, findGenerateur(reseau.getGenerateurs(), "G2").getCharge());
     }
 
     @Test
@@ -84,6 +87,13 @@ public class ReseauTest {
 
         assertTrue(reseau.getConnexions().isEmpty());
         assertEquals(0, reseau.getMaisons().get("M1").getConnected());
-        assertEquals(0, reseau.getGenerateurs().get("G1").getCharge()); // charge décrémentée
+        assertEquals(0, findGenerateur(reseau.getGenerateurs(), "G1").getCharge());
+    }
+
+    private Generateur findGenerateur(List<Generateur> generateurs, String nom) {
+        return generateurs.stream()
+                .filter(g -> g.getNom().equals(nom))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Generateur introuvable : " + nom));
     }
 }

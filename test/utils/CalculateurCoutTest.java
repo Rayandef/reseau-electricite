@@ -107,5 +107,15 @@ public class CalculateurCoutTest {
         return Double.parseDouble(valeur.replace(',', '.'));
     }
 
-    private record CoutStats(double dispersion, double surcharge, double cout) {}
+    private static class CoutStats {
+        final double dispersion;
+        final double surcharge;
+        final double cout;
+
+        CoutStats(double dispersion, double surcharge, double cout) {
+            this.dispersion = dispersion;
+            this.surcharge = surcharge;
+            this.cout = cout;
+        }
+    }
 }
