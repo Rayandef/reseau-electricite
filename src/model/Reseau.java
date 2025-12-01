@@ -1,6 +1,7 @@
 package model;
 
-import exception.*;
+import exception.ComposantException;
+import exception.ConnexionNotFoundException;
 import java.util.*;
 import utils.CalculateurCout;
 
@@ -168,6 +169,7 @@ public class Reseau {
         ancienneConnexion.setMaison(nouvelleMaison);
         ancienneConnexion.setGenerateur(nouveauGenerateur);
         nouvelleMaison.setConnected(nouvelleMaison.getConnected() + 1);
+        nouveauGenerateur.setCharge(nouvelleMaison.getConsommation());
         System.out.println(" Connexion modifiée : " + ancienneMaison.getNom() + " <-> " + ancienGenerateur.getNom() + " devient " + nouvelleMaison.getNom() + " <-> " + nouveauGenerateur.getNom());
     }
 
@@ -218,8 +220,8 @@ public class Reseau {
      *
      * @return une map des générateurs indexés par nom
      */
-    public Map<String, Generateur> getGenerateurs(){ 
-        return generateurs; 
+    public List<Generateur> getGenerateurs() {
+        return new ArrayList<>(generateurs.values());
     }
 
     /**

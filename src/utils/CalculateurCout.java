@@ -48,32 +48,31 @@ public class CalculateurCout {
      * @param reseau le réseau dont il faut calculer le coût
      */
     public static void calculer(Reseau reseau) {
-        Map<Generateur, Integer> charge = new HashMap<>();
-
-        for (Connexion c : reseau.getConnexions()) {
-            charge.merge(c.getGenerateur(), c.getMaison().getConsommation(), Integer::sum);
-        }
-
-        int n = charge.size();
-        double sommeU = 0;
-
-        Map<Generateur, Double> utilisation = new HashMap<>();
-        for (var entry : charge.entrySet()) {
-            double u = (double) entry.getValue() / entry.getKey().getCapaciteMax();
-            utilisation.put(entry.getKey(), u);
+        int n = reseau.getGenerateurs().size();
+        double sommeU = 0.0;
+        //Recupération du taux d'utilisation de chaque générateur
+        Map<Generateur, Double> taux = new HashMap<>();
+        for (Generateur g : reseau.getGenerateurs()){
+            double u = (double) g.getCharge() / g.getCapaciteMax();
+            taux.put(g, u);
             sommeU += u;
         }
 
-        double moyenne = sommeU / n;
-        double dispersion = 0;
-        double surcharge = 0;
+        double moyenneU = sommeU / n;
+        double dispersion = 0.0;
+        double surcharge = 0.0;
 
-        for (var entry : utilisation.entrySet()) {
-            double u = entry.getValue();
-            dispersion += Math.abs(u - moyenne);
-            if (u > 1.0) surcharge += (u - 1.0);
+        // Calcul de la dispersion et de la surcharge
+        for(Generateur g : reseau.getGenerateurs()){
+            double u = taux.get(g);
+            double Cg = (double)g.getCapaciteMax();
+            double Lg = (double)g.getCharge();
+            dispersion += Math.abs(u - moyenneU);
+            if (Lg > Cg){
+                surcharge += (Lg - Cg)/ Cg;
+            }
         }
-
+        // Calcul du coût total
         double cout = dispersion + LAMBDA * surcharge;
         System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", dispersion, surcharge, cout);
     }
