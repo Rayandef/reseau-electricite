@@ -4,53 +4,38 @@ import java.util.*;
 import model.*;
 
 /**
- * La classe {@code CalculateurCout} fournit les outils permettant d'évaluer
- * le coût d'un réseau électrique en fonction de la répartition des charges
- * entre les générateurs.
- * <p>
- * Le coût total prend en compte deux grandeurs :
- * <ul>
- *     <li>la dispersion des niveaux d'utilisation des générateurs,</li>
- *     <li>la surcharge des générateurs dépassant leur capacité maximale.</li>
- * </ul>
- * Ces valeurs sont combinées selon la formule : Coût(S) = Dispersion(S) + LAMBDA × Surcharge(S)
+ * La classe CalculateurCout fournit les outils permettant d evaluer
+ * le cout d un reseau electrique en fonction de la repartition des charges
+ * entre les generateurs.
  *
- * où {@code LAMBDA} est un coefficient fixé à {@code 10}.
+ * Co�t(S) = Dispersion(S) + LAMBDA * Surcharge(S)
  */
 public class CalculateurCout {
     public static final int LAMBDA = 10;
+
     /**
-     * Calcule et affiche le coût du réseau passé en paramètre.
-     *
-     * <p>Le calcul se déroule en plusieurs étapes :</p>
-     *
-     * <ol>
-     *   <li>Calcul de la charge de chaque générateur (somme des consommations des maisons connectées).</li>
-     *   <li>Calcul du taux d'utilisation de chaque générateur :
-     *   u = charge / capacité_max
-     *   </li>
-     *   <li>Calcul de l'utilisation moyenne.</li>
-     *   <li>Calcul de la dispersion :
-     *       Dispersion = &Sigma; |u_i - moyenne|
-     *   </li>
-     *   <li>Calcul de la surcharge :
-     *       Surcharge = &Sigma; max(0, u_i - 1)
-     *   </li>
-     *   <li>Calcul du coût :
-     *       Coût = dispersion + LAMBDA × surcharge
-     *   </li>
-     * </ol>
-     *
-     * <p>
-     * Le résultat est ensuite affiché sous la forme :  
-     * Disp(S)=X, Surcharge(S)=Y, Cout(S)=Z
-     *
-     * @param reseau le réseau dont il faut calculer le coût
+     * Calcule et affiche le cout du reseau passe en parametre.
+     * Affichage : Disp(S)=X, Surcharge(S)=Y, Cout(S)=Z
      */
     public static void calculer(Reseau reseau) {
+        CoutResult result = calculerDetails(reseau);
+        System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", result.dispersion, result.surcharge, result.cout);
+    }
+
+    /**
+     * Retourne le cout du reseau passe en parametre.
+     *
+     * @param reseau le reseau a evaluer
+     * @return le cout calcule
+     */
+    public static double cout(Reseau reseau) {
+        return calculerDetails(reseau).cout;
+    }
+
+    private static CoutResult calculerDetails(Reseau reseau) {
         int n = reseau.getGenerateurs().size();
         double sommeU = 0.0;
-        //Recupération du taux d'utilisation de chaque générateur
+        // Recuperation du taux d utilisation de chaque generateur
         Map<Generateur, Double> taux = new HashMap<>();
         for (Generateur g : reseau.getGenerateurs()){
             double u = (double) g.getCharge() / g.getCapaciteMax();
@@ -72,9 +57,9 @@ public class CalculateurCout {
                 surcharge += (Lg - Cg)/ Cg;
             }
         }
-        // Calcul du coût total
+        // Calcul du cout total
         double cout = dispersion + LAMBDA * surcharge;
-        System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", dispersion, surcharge, cout);
+        return new CoutResult(dispersion, surcharge, cout);
     }
 
     public double getDispertion(List<Generateur> G){
@@ -88,5 +73,17 @@ public class CalculateurCout {
             disp += Math.abs(g.getCapaciteMax() - moyG);
         }
         return disp;
+    }
+
+    private static class CoutResult {
+        final double dispersion;
+        final double surcharge;
+        final double cout;
+
+        CoutResult(double dispersion, double surcharge, double cout) {
+            this.dispersion = dispersion;
+            this.surcharge = surcharge;
+            this.cout = cout;
+        }
     }
 }
