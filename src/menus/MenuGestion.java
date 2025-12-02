@@ -1,5 +1,7 @@
 package menus;
 import exception.*;
+import io.ImportFichier;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Maison;
@@ -49,6 +51,7 @@ public class MenuGestion {
                 System.out.println("3) Ajouter une connexion");
                 System.out.println("4) Supprimer une connexion");
                 System.out.println("5) Passer au recapitulatif");
+                System.out.println("6: Créer le réseau depuis un fichier txt");
                 System.out.print("Choix : ");
 
                 int choix;
@@ -142,6 +145,13 @@ public class MenuGestion {
                         }catch(ComposantException e){
                             System.err.println("Erreur: " + e.getMessage());
                         }
+                    }
+                    case 6-> {
+                        /*Permet à l'utilisateur de créer un réseau depuis un fichier texte s'il ne l'a pas fait en lançant le programme */
+                        System.out.println("Veuillez entrée le chemin vers le fichier txt");
+                        String fich =sc.nextLine();
+                        ImportFichier loader = new ImportFichier();
+                        loader.creationReseau(fich, reseau);
                     }
                     //Si l'utilisateur a entré autre chose que les entiers 1 2 3 4 5
                     default -> throw new IllegalArgumentException("Veuillez entrer un entier présent dans le menu.");
