@@ -134,7 +134,7 @@ public class MenuGestion {
                             if (reseau.getGenerateurs().isEmpty()){
                                 throw new ComposantException("L'ajout de generateur est obligatoire");
                             }
-                            for (Maison m : reseau.getMaisons().values()) {
+                            for (Maison m : reseau.getMaisons()) {
                                 if (m.getConnected() == 0) {
                                     throw new ComposantException("La maison " + m.getNom() + " n'est connectée à aucun générateur !");
                                 }else if (m.getConnected() > 1) {
@@ -151,7 +151,11 @@ public class MenuGestion {
                         System.out.println("Veuillez entrée le chemin vers le fichier txt");
                         String fich =sc.nextLine();
                         ImportFichier loader = new ImportFichier();
-                        loader.creationReseau(fich, reseau);
+                        try {
+                            loader.creationReseau(fich, reseau);   
+                        } catch (ComposantException | ConnexionNotFoundException e) {
+                            System.err.println("Erreur lors de la création du réseau depuis le fichier : " + e.getMessage());
+                        }
                     }
                     //Si l'utilisateur a entré autre chose que les entiers 1 2 3 4 5
                     default -> throw new IllegalArgumentException("Veuillez entrer un entier présent dans le menu.");

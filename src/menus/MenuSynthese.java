@@ -2,8 +2,9 @@ package menus;
 
 import exception.ConnexionNotFoundException;
 import io.ExportFichier;
-
+import java.io.*;
 import java.util.Scanner;
+import utils.*;
 import model.Reseau;
 
 /**
@@ -53,7 +54,8 @@ public class MenuSynthese {
                 System.out.println("2) Modifier une connexion");
                 System.out.println("3) Afficher le réseau");
                 System.out.println("4) Exporter le réseau vers un fichier txt");
-                System.out.println("5) Quitter");
+                System.out.println("5) Optimiser le réseau");
+                System.out.println("6) Quitter");
                 System.out.print("Choix : ");
 
                 int choix;
@@ -97,11 +99,19 @@ public class MenuSynthese {
                         System.out.println("Veuillez entrer le chemin vers le fichier txt pour l'exportation");
                         String fichExport = sc.nextLine();
                         ExportFichier exporter = new ExportFichier();
-                        exporter.export(reseau, fichExport);
+                        try{
+                            exporter.export(reseau, fichExport);
+                        }catch (IOException e){
+                            System.err.println("Erreur lors de l'exportation du réseau vers le fichier : " + e.getMessage());
+                        }
                     }
  
-
-                    case 5 -> { //quitte le programme
+                    case 5 -> {
+                        AlgoBestConnexion A = new AlgoBestConnexion();
+                        A.algoBestConnexion(reseau);
+                        System.out.println("le réseau a été modifié");
+                    }
+                    case 6 -> { //quitte le programme
                         running = false;
                         System.out.println("Fin du programme.");
                     }

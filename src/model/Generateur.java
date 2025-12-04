@@ -76,7 +76,11 @@ public class Generateur {
      * @param consommations
      */
     public void setCharge(int consommations){
-        this.charge += consommations;
+        this.charge = consommations;
+    }
+
+    public void addCharge(int consommation){
+        this.charge += consommation;
     }
 
     /**

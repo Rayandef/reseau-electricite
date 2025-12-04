@@ -5,12 +5,11 @@ import model.*;
 
 public class ImportFichier {
     
-    public void creationReseau(String CheminWithTxt,Reseau reseau){
+    public void creationReseau(String CheminWithTxt,Reseau reseau)throws  ComposantException, ConnexionNotFoundException, NumberFormatException {
         File fileImport = new File(CheminWithTxt);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(fileImport))){
             String getData;
             while ((getData = fileReader.readLine()) != null) {
-                try{
                         String checkData = getData.trim();
                         if (checkData.isEmpty()) continue;
                         int dataStart = checkData.indexOf("(");
@@ -33,11 +32,6 @@ public class ImportFichier {
                     }else{
                         throw new ComposantException("Erreur: " + getData + "n'est pas un générateur, une maison ou une connexion");
                     }
-                }catch (NumberFormatException e){
-                    System.err.println("Erreur sur le générateur " + getData + ": le générateur n'a pas une valeur entière");
-                }catch (ComposantException | ConnexionNotFoundException e){
-                    System.err.println("Erreur: " + e.getMessage());
-                }
             }
         }catch(IOException e){
             e.printStackTrace();

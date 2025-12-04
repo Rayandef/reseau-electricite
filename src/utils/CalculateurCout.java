@@ -62,7 +62,7 @@ public class CalculateurCout {
         return new CoutResult(dispersion, surcharge, cout);
     }
 
-    public double getDispertion(List<Generateur> G){
+    public static double getDispersion(List<Generateur> G){
         double moyG,disp = 0;
         int u = 0;
         for (Generateur g : G) {

@@ -3,6 +3,7 @@ import java.util.Scanner;
 import io.ImportFichier;
 import menus.*;
 import model.*;
+import exception.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +16,11 @@ public class Main {
                 break;
             case 1:
                 ImportFichier loader = new ImportFichier();
+                try{
                 loader.creationReseau(args[0], reseau);
+                }catch (ComposantException | ConnexionNotFoundException e){
+                    System.err.println("Erreur lors de l'import du fichier: " + e.getMessage());
+                }
                 MenuGestion.afficherMenu(sc, reseau);
                 MenuSynthese.afficherMenu(sc, reseau);
             default:
