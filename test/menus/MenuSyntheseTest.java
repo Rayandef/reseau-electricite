@@ -44,4 +44,23 @@ public class MenuSyntheseTest {
         assertTrue(Files.size(fichierExport) > 0);
         Files.deleteIfExists(fichierExport);
     }
+
+    @Test
+    public void optionInvalideEtEchecChangementConnexionPuisQuitte() throws ComposantException, ConnexionNotFoundException {
+        Reseau reseau = new Reseau();
+        reseau.ajouterGenerateur("G1", 100);
+        reseau.ajouterMaison("M1", "NORMALE");
+        reseau.ajouterConnexion("M1", "G1");
+
+        String input = String.join("\n",
+                "0",              // option invalide -> default
+                "2", "M1 G2", "M1 G1", // tentative de changement invalide (G2 absent)
+                "5"               // quitter
+        ) + "\n";
+
+        Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
+        MenuSynthese.afficherMenu(scanner, reseau);
+
+        assertEquals("G1", reseau.getConnexions().get(0).getGenerateur().getNom());
+    }
 }

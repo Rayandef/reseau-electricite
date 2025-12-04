@@ -90,6 +90,37 @@ public class ReseauTest {
         assertEquals(0, findGenerateur(reseau.getGenerateurs(), "G1").getCharge());
     }
 
+    @Test(expected = ConnexionNotFoundException.class)
+    public void supprimerConnexionInexistanteLanceException() throws ConnexionNotFoundException {
+        new Reseau().supprimerConnexion("M1", "G1");
+    }
+
+    @Test(expected = ConnexionNotFoundException.class)
+    public void changerConnexionAncienneInvalideLanceException() throws ComposantException, ConnexionNotFoundException {
+        Reseau reseau = new Reseau();
+        reseau.ajouterMaison("M1", "BASSE");
+        reseau.ajouterGenerateur("G1", 50);
+        reseau.changerConnexion("M1", "G2", "M1", "G1");
+    }
+
+    @Test(expected = ConnexionNotFoundException.class)
+    public void changerConnexionNouvelleInvalideLanceException() throws Exception {
+        Reseau reseau = new Reseau();
+        reseau.ajouterMaison("M1", "BASSE");
+        reseau.ajouterMaison("M2", "BASSE");
+        reseau.ajouterGenerateur("G1", 50);
+        reseau.ajouterConnexion("M1", "G1");
+
+        reseau.changerConnexion("M1", "G1", "M2", "G2");
+    }
+
+    @Test(expected = ConnexionNotFoundException.class)
+    public void ajouterConnexionNomMaisonInconnuLanceException() throws ComposantException, ConnexionNotFoundException {
+        Reseau reseau = new Reseau();
+        reseau.ajouterGenerateur("G1", 10);
+        reseau.ajouterConnexion("G1", "InconnuMaison");
+    }
+
     private Generateur findGenerateur(List<Generateur> generateurs, String nom) {
         return generateurs.stream()
                 .filter(g -> g.getNom().equals(nom))

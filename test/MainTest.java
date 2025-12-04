@@ -65,4 +65,22 @@ public class MainTest {
         assertTrue(sortie.contains("Erreur dans le nombre d'arguments"));
         assertTrue(sortie.contains("Fin du programme."));
     }
+
+    @Test
+    public void mainAvecPlusieursArgumentsDeclencheDefault() {
+        String input = String.join("\n",
+                "1", "G1 50",
+                "2", "M1 BASSE",
+                "3", "M1 G1",
+                "5",               // fin menu gestion
+                "5"                // fin menu synthese
+        ) + "\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
+
+        Main.main(new String[]{"arg1", "arg2"});
+
+        String sortie = outContent.toString();
+        assertTrue(sortie.contains("Erreur dans le nombre d'arguments"));
+        assertTrue(sortie.contains("Lancement du programme par d"));
+    }
 }
