@@ -109,7 +109,12 @@ public class MenuSynthese {
                     case 5 -> {
                         AlgoBestConnexion A = new AlgoBestConnexion();
                         A.algoBestConnexion(reseau);
-                        System.out.println("le réseau a été modifié");
+                        System.out.println("Le réseau a été modifié");
+                        System.out.println("Nouveau réseau :");
+                        reseau.afficherReseau();
+                        System.out.println("Nouveau coût du réseau :");
+                        reseau.calculerCout();
+
                     }
                     case 6 -> { //quitte le programme
                         running = false;

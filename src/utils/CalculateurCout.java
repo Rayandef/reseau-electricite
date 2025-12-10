@@ -62,16 +62,15 @@ public class CalculateurCout {
         return new CoutResult(dispersion, surcharge, cout);
     }
 
-    public static double getDispersion(List<Generateur> G){
-        double moyG,disp = 0;
-        int u = 0;
-        for (Generateur g : G) {
-            u += g.getCapaciteMax();
-        }
-        moyG = u/G.size();
-        for (Generateur g : G) {
-            disp += Math.abs(g.getCapaciteMax() - moyG);
-        }
+    public static double getDispersion(List<Generateur> G) {
+        int n = G.size();
+        double somme = 0;// Somme des charges actuelles de tous les générateurs
+        for (Generateur g : G)
+            somme += g.getCharge();
+        double moyenne = somme / n;// Charge moyenne du réseau
+        double disp = 0;// Dispersion totale
+        for (Generateur g : G)
+            disp += Math.abs(g.getCharge() - moyenne);
         return disp;
     }
 

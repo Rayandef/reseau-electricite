@@ -49,8 +49,8 @@ public class MenuGestion {
                 System.out.println("2) Ajouter une maison");
                 System.out.println("3) Ajouter une connexion");
                 System.out.println("4) Supprimer une connexion");
-                System.out.println("5) Passer au recapitulatif");
-                System.out.println("6: Créer le réseau depuis un fichier txt");
+                System.out.println("5) Créer le réseau depuis un fichier txt");
+                System.out.println("6) Passer au recapitulatif");
                 System.out.print("Choix : ");
 
                 int choix;

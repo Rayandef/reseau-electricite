@@ -93,6 +93,6 @@ public class Generateur {
      */
     @Override
     public String toString() {
-        return nom + " (" + capaciteMax + " kW max)" + "Charge actuelle " + charge + "kW";
+        return nom + " (" + capaciteMax + " kW max)" + " | Charge actuelle " + charge + "kW";
     }
 }
