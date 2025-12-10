@@ -22,20 +22,20 @@ public class AlgoBestConnexion {
         for (Generateur g: r.getGenerateurs()){ //Parcours de tous les générateurs
 
             if (g.getCharge() + m.getConsommation() <= g.getCapaciteMax()) { //S'il n'y a pas de surcharge
-            g.setCharge(g.getCharge()+m.getConsommation()); //On ajoute la charge temporairement
-            double disp = CalculateurCout.getDispersion(r.getGenerateurs()); //On calcule la dispersion
+                g.setCharge(g.getCharge()+m.getConsommation()); //On ajoute la charge temporairement
+                double disp = CalculateurCout.getDispersion(r.getGenerateurs()); //On calcule la dispersion
 
-            if (meilleurGenerateur == null){ //Si c'est le premier générateur testé
-                //On l'ajoute comme meilleur générateur et meilleure dispersion
-                meilleurGenerateur = g;
-                bestDisp = disp;
+                if (meilleurGenerateur == null){ //Si c'est le premier générateur testé
+                    //On l'ajoute comme meilleur générateur et meilleure dispersion
+                    meilleurGenerateur = g;
+                    bestDisp = disp;
 
-            }else if (disp < bestDisp){ //Sinon on compare la dispersion
-                //Si disp est meilleure, alors elle devient la meilleure dispersion et le meilleur générateur est également remplacé
-                meilleurGenerateur = g;
-                bestDisp = disp;
-            }
-            g.setCharge(g.getCharge() - m.getConsommation()); //Backtrack, on passe au générateur suivant
+                }else if (disp < bestDisp){ //Sinon on compare la dispersion
+                    //Si disp est meilleure, alors elle devient la meilleure dispersion et le meilleur générateur est également remplacé
+                    meilleurGenerateur = g;
+                    bestDisp = disp;
+                }
+                g.setCharge(g.getCharge() - m.getConsommation()); //Backtrack, on passe au générateur suivant
             }
         }
 

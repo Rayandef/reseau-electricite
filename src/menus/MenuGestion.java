@@ -1,7 +1,6 @@
 package menus;
 import exception.*;
 import io.ImportFichier;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import model.Maison;
@@ -122,6 +121,17 @@ public class MenuGestion {
                         }
                     }
                     case 5 -> {
+                        /*Permet à l'utilisateur de créer un réseau depuis un fichier texte s'il ne l'a pas fait en lançant le programme */
+                        System.out.println("Veuillez entrée le chemin vers le fichier txt");
+                        String fich =sc.nextLine();
+                        ImportFichier loader = new ImportFichier();
+                        try {
+                            loader.creationReseau(fich, reseau);   
+                        } catch (ComposantException | ConnexionNotFoundException e) {
+                            System.err.println("Erreur lors de la création du réseau depuis le fichier : " + e.getMessage());
+                        }
+                    }
+                    case 6-> {
                         /*On vérifie qu'il y ait bien des maisons, des générateurs et au moins une connection entre un générateur et 
                         une maison avant de passer au menu suivant.*/
                         try{
@@ -144,17 +154,6 @@ public class MenuGestion {
                             running = false;
                         }catch(ComposantException e){
                             System.err.println("Erreur: " + e.getMessage());
-                        }
-                    }
-                    case 6-> {
-                        /*Permet à l'utilisateur de créer un réseau depuis un fichier texte s'il ne l'a pas fait en lançant le programme */
-                        System.out.println("Veuillez entrée le chemin vers le fichier txt");
-                        String fich =sc.nextLine();
-                        ImportFichier loader = new ImportFichier();
-                        try {
-                            loader.creationReseau(fich, reseau);   
-                        } catch (ComposantException | ConnexionNotFoundException e) {
-                            System.err.println("Erreur lors de la création du réseau depuis le fichier : " + e.getMessage());
                         }
                     }
                     //Si l'utilisateur a entré autre chose que les entiers 1 2 3 4 5
