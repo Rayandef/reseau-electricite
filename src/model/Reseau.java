@@ -204,7 +204,7 @@ public class Reseau {
      * Calcule et affiche le coût total du réseau en utilisant {@link CalculateurCout}.
      */
     public void calculerCout() {
-        CalculateurCout.calculer(this);
+        CalculateurCout.printCout(this);
     }
 
     //Getters et setters des différents attributs de Reseau

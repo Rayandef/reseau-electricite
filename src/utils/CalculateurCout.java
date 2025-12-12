@@ -17,9 +17,9 @@ public class CalculateurCout {
      * Calcule et affiche le cout du reseau passe en parametre.
      * Affichage : Disp(S)=X, Surcharge(S)=Y, Cout(S)=Z
      */
-    public static void calculer(Reseau reseau) {
-        CoutResult result = calculerDetails(reseau);
-        System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", result.dispersion, result.surcharge, result.cout);
+    public static void printCout(Reseau reseau) {
+        ArrayList<Double> result = getResult(reseau);
+        System.out.printf("Disp(S)=%.3f, Surcharge(S)=%.3f, Cout(S)=%.3f%n", result.get(0), result.get(1), result.get(2));
     }
 
     /**
@@ -28,61 +28,46 @@ public class CalculateurCout {
      * @param reseau le reseau a evaluer
      * @return le cout calcule
      */
-    public static double cout(Reseau reseau) {
-        return calculerDetails(reseau).cout;
+
+    public static ArrayList<Double> getResult(Reseau reseau) {
+        ArrayList<Double>allResult = new ArrayList<>();
+        double dispersion = getDispersion(reseau.getGenerateurs());
+        allResult.add(dispersion);
+        double surcharge = getSurcharge(reseau.getGenerateurs());
+        allResult.add(surcharge);
+        // Calcul du cout total
+        double cout = dispersion + LAMBDA * surcharge;
+        allResult.add(cout);
+        return allResult;
     }
 
-    private static CoutResult calculerDetails(Reseau reseau) {
-        int n = reseau.getGenerateurs().size();
-        double sommeU = 0.0;
-        // Recuperation du taux d utilisation de chaque generateur
-        Map<Generateur, Double> taux = new HashMap<>();
-        for (Generateur g : reseau.getGenerateurs()){
-            double u = (double) g.getCharge() / g.getCapaciteMax();
-            taux.put(g, u);
-            sommeU += u;
-        }
-
-        double moyenneU = sommeU / n;
-        double dispersion = 0.0;
+    public static double getSurcharge(List<Generateur> G){
         double surcharge = 0.0;
-
-        // Calcul de la dispersion et de la surcharge
-        for(Generateur g : reseau.getGenerateurs()){
-            double u = taux.get(g);
+        // Calcul de la surcharge
+        for(Generateur g : G){
             double Cg = (double)g.getCapaciteMax();
             double Lg = (double)g.getCharge();
-            dispersion += Math.abs(u - moyenneU);
             if (Lg > Cg){
                 surcharge += (Lg - Cg)/ Cg;
             }
         }
-        // Calcul du cout total
-        double cout = dispersion + LAMBDA * surcharge;
-        return new CoutResult(dispersion, surcharge, cout);
+        return surcharge;
     }
 
     public static double getDispersion(List<Generateur> G) {
         int n = G.size();
-        double somme = 0;// Somme des charges actuelles de tous les générateurs
-        for (Generateur g : G)
-            somme += g.getCharge();
-        double moyenne = somme / n;// Charge moyenne du réseau
-        double disp = 0;// Dispersion totale
-        for (Generateur g : G)
-            disp += Math.abs(g.getCharge() - moyenne);
-        return disp;
-    }
-
-    private static class CoutResult {
-        final double dispersion;
-        final double surcharge;
-        final double cout;
-
-        CoutResult(double dispersion, double surcharge, double cout) {
-            this.dispersion = dispersion;
-            this.surcharge = surcharge;
-            this.cout = cout;
+        double sommeTaux = 0.0;// Somme des charges actuelles de tous les générateurs
+        double taux;
+        for (Generateur g : G){
+            taux = (double)g.getCharge() / (double)g.getCapaciteMax();
+            sommeTaux += taux;
         }
+        double moyenne = sommeTaux / n;// Charge moyenne du réseau
+        double disp = 0;// Dispersion totale
+        for (Generateur g : G) {
+            taux = (double)g.getCharge() / (double)g.getCapaciteMax();
+            disp += Math.abs(taux - moyenne);
+        }
+        return disp;
     }
 }

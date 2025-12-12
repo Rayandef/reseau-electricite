@@ -4,8 +4,8 @@ import exception.ConnexionNotFoundException;
 import io.ExportFichier;
 import java.io.*;
 import java.util.Scanner;
-import utils.*;
 import model.Reseau;
+import utils.*;
 
 /**
  * Cette classe ({@code MenuSynthese}) permet de gérer les éléments du second menu.
