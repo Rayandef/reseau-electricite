@@ -11,7 +11,11 @@ import model.*;
  * Co�t(S) = Dispersion(S) + LAMBDA * Surcharge(S)
  */
 public class CalculateurCout {
-    public static final int LAMBDA = 10;
+    public static  int LAMBDA = 10;
+
+    public static void setLambda(int lambda) {
+        LAMBDA = lambda;
+    }
 
     /**
      * Calcule et affiche le cout du reseau passe en parametre.
