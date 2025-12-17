@@ -8,11 +8,18 @@ import model.*;
  * le cout d un reseau electrique en fonction de la repartition des charges
  * entre les generateurs.
  *
- * Co�t(S) = Dispersion(S) + LAMBDA * Surcharge(S)
+ * Coùt(S) = Dispersion(S) + LAMBDA * Surcharge(S)
  */
 public class CalculateurCout {
+    /**
+     * La sévérité de la pénalisation
+     */
     public static  int LAMBDA = 10;
 
+    /**
+     * 
+     * @param lambda sévérité de la pénalisation
+     */
     public static void setLambda(int lambda) {
         LAMBDA = lambda;
     }
@@ -20,6 +27,7 @@ public class CalculateurCout {
     /**
      * Calcule et affiche le cout du reseau passe en parametre.
      * Affichage : Disp(S)=X, Surcharge(S)=Y, Cout(S)=Z
+     * @param reseau le réseau dont ont afficher le coùt
      */
     public static void printCout(Reseau reseau) {
         ArrayList<Double> result = getResult(reseau);
@@ -27,10 +35,10 @@ public class CalculateurCout {
     }
 
     /**
-     * Retourne le cout du reseau passe en parametre.
+     * Retourne le cout du reseau passé en parametre.
      *
      * @param reseau le reseau a evaluer
-     * @return le cout calcule
+     * @return le cout calculé
      */
 
     public static ArrayList<Double> getResult(Reseau reseau) {
@@ -45,6 +53,11 @@ public class CalculateurCout {
         return allResult;
     }
 
+    /**
+     * Retourne la surcharge du réseau
+     * @param G la liste des générateur
+     * @return la surchage
+     */
     public static double getSurcharge(List<Generateur> G){
         double surcharge = 0.0;
         // Calcul de la surcharge
@@ -58,6 +71,12 @@ public class CalculateurCout {
         return surcharge;
     }
 
+
+    /**
+     * Méthode utilisée dans {@link AlgoBestConnexion} qui permet de récupérer uniquement la dispersion
+     * @param G la liste des générateurs du réseau
+     * @return la dispersion 
+     */
     public static double getDispersion(List<Generateur> G) {
         int n = G.size();
         double sommeTaux = 0.0;// Somme des charges actuelles de tous les générateurs

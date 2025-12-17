@@ -73,12 +73,16 @@ public class Generateur {
 
     /**
      * Modifie la charge du générateur
-     * @param consommations
+     * @param consommations la consommations appliquée au générateur
      */
     public void setCharge(int consommations){
         this.charge = consommations;
     }
 
+    /**
+     * Ajoute la consommation au générateur
+     * @param consommation la consommation à ajouter
+     */
     public void addCharge(int consommation){
         this.charge += consommation;
     }

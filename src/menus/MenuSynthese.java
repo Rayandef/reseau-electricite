@@ -10,7 +10,7 @@ import utils.*;
 /**
  * Cette classe ({@code MenuSynthese}) permet de gérer les éléments du second menu.
  * <p>
- * Elle permet à l'utilisateur de modifier des connexions, voir l'état du réseau et calcul le coût du réseau actuel.
+ * Elle permet à l'utilisateur de trouver le meilleur coût possible pour le réseau courant et de l'exporté sous forme de fichier texte.
  */
 public class MenuSynthese {
      /**
@@ -19,13 +19,8 @@ public class MenuSynthese {
      * <p>
      * Le menu propose les options suivantes :
      * <ul>
-     *     <li>Calculer le coût du réseau : utilise la méthode
-     *         {@link Reseau#calculerCout()} pour afficher le coût total.</li>
-     *     <li>Modifier une connexion : permet à l'utilisateur
-     *         de remplacer une connexion existante par une nouvelle via
-     *         {@link Reseau#changerConnexion(String, String, String, String)}.</li>
-     *     <li>Afficher le réseau : visualisation du réseau
-     *         grâce à {@link Reseau#afficherReseau()}.</li>
+     *     <li>Appliquer l'algorithme pour trouver un cout minimal.</li>
+     *     <li>Exporter le fichier texte.</li>
      *     <li>Quitter : met fin au programme.</li>
      * </ul>
      *

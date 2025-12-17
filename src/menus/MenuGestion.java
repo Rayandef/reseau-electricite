@@ -11,6 +11,7 @@ import model.Reseau;
  * <p>
  * Elle permet à l'utilisateur d'ajouter des générateurs, des maisons et de
  * créer ou supprimer des connexions entre maisons et générateurs.
+ * Elle permet aussi à l'utilisateur d'importer un fichier texte s'il ne l'a pas fait lors du lancement du programme
  */
 public class MenuGestion {
      /**
@@ -21,7 +22,8 @@ public class MenuGestion {
      *     <li>2) Ajouter une maison</li>
      *     <li>3) Ajouter une connexion</li>
      *     <li>4) Supprimer une connexion</li>
-     *     <li>5) Passer au récapitulatif</li>
+     *     <li>5) Créer le réseau depuis un fichier txt
+     *     <li>6) Passer au récapitulatif</li>
      * </ul>
      *
      * <p>

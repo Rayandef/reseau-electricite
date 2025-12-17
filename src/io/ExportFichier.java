@@ -8,8 +8,16 @@ import model.Generateur;
 import model.Maison;
 import model.Reseau;
 
+/**
+ * Cette classe ({@code ExportFichier}) permet d'exporter le réseau sous la forme d'un fichier text. Elle demande à l'utilisateur sous quel nom de fichier exporté ce dernier.
+ */
 public class ExportFichier {
-
+    /**
+     * Méthode qui permet l'exportation d'un réseau sous fichier txt
+     * @param reseau le réseau à exporter
+     * @param chemin le chemin vers le fichier qui sera crée
+     * @throws IOException si il y a une erreur avec le fichier
+     */
     public void export(Reseau reseau, String chemin) throws IOException{
         try(BufferedWriter  bufferedWriter = new BufferedWriter(new FileWriter(chemin))) {
             for(Generateur g : reseau.getGenerateurs()){

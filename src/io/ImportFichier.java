@@ -3,8 +3,18 @@ import exception.*;
 import java.io.*;
 import model.*;
 
+/**
+ * Cette classe ({@code ImportFichier}) permet d'importer un réseau stocké sous la forme d'un fichiet .txt.
+ */
 public class ImportFichier {
-    
+    /**
+     * Méthode qui permet l'importation d'un fichier texte. Vérifie que le fichier texte est au bon format et qu'il existe. Ne créer que les éléments respectant le formatage ou les conditions de création
+     * @param CheminWithTxt //chemin du fichier 
+     * @param reseau le réseau qui va etre créer
+     * @throws ComposantException si il y a un élément de création incorrect
+     * @throws ConnexionNotFoundException si il y a une erreur dans les connexions
+     * @throws NumberFormatException si il y a une erreur dans le formatage des nombres
+     */
     public void creationReseau(String CheminWithTxt,Reseau reseau)throws  ComposantException, ConnexionNotFoundException, NumberFormatException {
         File fileImport = new File(CheminWithTxt);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(fileImport))){
@@ -34,6 +44,12 @@ public class ImportFichier {
                     }
             }
         }catch(IOException e){
+            e.printStackTrace();
+        }
+        catch(ConnexionNotFoundException e){
+            e.printStackTrace();
+        }
+        catch(NumberFormatException e){
             e.printStackTrace();
         }
     }

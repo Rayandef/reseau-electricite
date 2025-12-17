@@ -20,10 +20,10 @@ import utils.CalculateurCout;
  */
 
 public class Reseau {
-    /** Ensemble des maisons du réseau, indexées par leur nom. */
+    /** Ensemble des maisons du réseau. */
     private List<Maison> maisons = new ArrayList<>();
 
-    /** Ensemble des générateurs du réseau, indexés par leur nom. */
+    /** Ensemble des générateurs du réseau. */
     private List<Generateur> generateurs = new ArrayList<>();
 
     /** Liste des connexions entre les maisons et les générateurs. */
@@ -81,7 +81,7 @@ public class Reseau {
      * automatiquement qui est la maison et qui est le générateur.     *
      * @param nomA nom d'une maison ou d'un générateur
      * @param nomB nom d'une maison ou d'un générateur
-     * @throws IllegalArgumentException si l'un des noms ne correspond pas
+     * @throws ConnexionNotFoundException si l'un des noms ne correspond pas
      *         à une maison ou à un générateur
      */
     public void ajouterConnexion(String nomA, String nomB) throws ConnexionNotFoundException {
@@ -217,6 +217,11 @@ public class Reseau {
         return maisons; 
     }
 
+    /**
+     * Méthode qui permet de récupérer une maison en particulier à partir de son nom.
+     * @param nom le nom de la maison cherchée
+     * @return la maison cherchée
+     */
     private Maison getMaison(String nom) {
         for (Maison m : maisons) {
             if (m.getNom().equals(nom)) {
@@ -226,6 +231,11 @@ public class Reseau {
         return null;
     }
 
+    /**
+     * Méthode qui permet de récupérer un générateur en particulier à partir de son nom. 
+     * @param nom
+     * @return
+     */
     private Generateur getGenerateur(String nom) {
         for (Generateur g : generateurs) {
             if (g.getNom().equals(nom)) {
@@ -252,10 +262,16 @@ public class Reseau {
         return connexions; 
     }
 
+    /**
+     * Méthode qui tri les générateurs par ordre de capacité maximale décroissant
+     */
     public void genReverseSort(){
         this.generateurs.sort(Comparator.comparingInt(Generateur::getCapaciteMax).reversed());
     }
 
+    /**
+     * Méthode qui tri les maisons par ordre décroissant de consommation
+     */
     public void maisReverseSort(){
         this.maisons.sort(Comparator.comparingInt(Maison::getConsommation).reversed());
     }

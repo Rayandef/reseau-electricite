@@ -5,11 +5,18 @@ import model.Connexion;
 import model.Generateur;
 import model.Maison;
 import model.Reseau;
+/**
+ * Cette classe ({@code AlgoBestConnexion}) permet de gérer l'algorithme pour chercher le cout optimal d'un réseau.
+ */
 
 public class AlgoBestConnexion {
-    /*Logique de l'algorithme: On trie les maisons dans l'ordre décroissant afin de stocker ceux qui ont la plus grosse consommation en premier.
+
+    /**
+     * Logique de l'algorithme: On trie les maisons dans l'ordre décroissant afin de stocker ceux qui ont la plus grosse consommation en premier.
     Puis, cherche tout d'abord à répartir les maisons de manière équitable sur les générateurs sans créer de surcharge.
-    Lorsque la surcharge est inévitable: On ajoute la maison lorsque le coût est minimal */
+    Lorsque la surcharge est inévitable: On ajoute la maison lorsque le coût est minimal
+     * @param r le réseau à optimiser
+     */
    public void algoBestConnexion(Reseau r) {
     r.maisReverseSort(); //On trie dans l'ordre décroissant les maisons en fonction de leur consommation
     r.getConnexions().clear(); //On vide les connexions existantes
