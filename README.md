@@ -12,6 +12,12 @@ L’utilisateur peut **créer manuellement un réseau**, **visualiser sa structu
 ```
 reseau-electricite/
  ├── src/
+ │   ├── exception/
+ │   │   ├── ComposantException.java
+ │   │   └── ConnexionNotFoundExeception.java
+ │   ├── io/
+ │   │   ├── ExportFichier.java
+ │   │   └── ImportFichier.java
  │   ├── menus/
  │   │   ├── MenuGestion.java
  │   │   └── MenuSynthese.java
@@ -21,9 +27,27 @@ reseau-electricite/
  │   │   ├── Maison.java
  │   │   └── Reseau.java
  │   ├── utils/
+ │   │   ├── AlgoBestConnexion.java
  │   │   └── CalculateurCout.java
  │   └── Main.java
+ ├── test/
+ │   ├── io/
+ │   │   ├── ExportFichierTest.java
+ │   │   └── ImportFichierTest.java
+ │   ├── menus/
+ │   │   ├── MenuGestionTest.java
+ │   │   └── MenuSyntheseTest.java
+ │   ├── model/
+ │   │   ├── ConnexionTest.java
+ │   │   ├── GenerateurTest.java
+ │   │   ├── MaisonTest.java
+ │   │   └── ReseauTest.java
+ │   ├── utils/
+ │   │   ├── AlgoBestConnexionTest.java
+ │   │   └── CalculateurCoutTest.java
+ │   └── MainTest.java
  └── README.md
+
 ```
 
 ## Préréquis
