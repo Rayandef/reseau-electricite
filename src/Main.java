@@ -25,7 +25,6 @@ public class Main {
                 } catch (ComposantException | ConnexionNotFoundException e) {
                     System.err.println("Erreur lors de l'import du fichier: " + e.getMessage());
                 }
-                MenuGestion.afficherMenu(sc, reseau);
                 MenuSynthese.afficherMenu(sc, reseau);
                 break;
 
@@ -43,7 +42,6 @@ public class Main {
                 } catch (NumberFormatException e) {
                     System.err.println("Le troisième argument doit être un entier. Lambda reste par défaut.");
                 }
-                MenuGestion.afficherMenu(sc, reseau);
                 MenuSynthese.afficherMenu(sc, reseau);
                 break;
 
