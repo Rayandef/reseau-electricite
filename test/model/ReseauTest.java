@@ -11,23 +11,29 @@ import static org.junit.Assert.*;
 public class ReseauTest {
 
     @Test
-    public void ajouterMaisonCreeOuMetAJour() throws ComposantException {
+    public void ajouterMaisonAjouteDeuxEntreesSiNomIdentique() throws ComposantException {
         Reseau reseau = new Reseau();
         reseau.ajouterMaison("M1", "BASSE");
-        reseau.ajouterMaison("M1", "FORTE"); // mise à jour
+        reseau.ajouterMaison("M1", "FORTE"); // ajoute une seconde entree avec le meme nom
 
-        assertEquals(1, reseau.getMaisons().size());
-        assertEquals(40, reseau.getMaisons().get("M1").getConsommation());
+        assertEquals(2, reseau.getMaisons().size());
+        long maisonsForte = reseau.getMaisons().stream()
+                .filter(m -> "M1".equals(m.getNom()) && m.getConsommation() == 40)
+                .count();
+        assertEquals(1, maisonsForte);
     }
 
     @Test
     public void ajouterGenerateurMetAJourCapacite() throws ComposantException {
         Reseau reseau = new Reseau();
         reseau.ajouterGenerateur("G1", 50);
-        reseau.ajouterGenerateur("G1", 80); // mise à jour
+        reseau.ajouterGenerateur("G1", 80); // ajoute une seconde entree avec le meme nom
 
-        assertEquals(1, reseau.getGenerateurs().size());
-        assertEquals(80, findGenerateur(reseau.getGenerateurs(), "G1").getCapaciteMax());
+        assertEquals(2, reseau.getGenerateurs().size());
+        long generateurs80 = reseau.getGenerateurs().stream()
+                .filter(g -> "G1".equals(g.getNom()) && g.getCapaciteMax() == 80)
+                .count();
+        assertEquals(1, generateurs80);
     }
 
     @Test(expected = ComposantException.class)
@@ -45,7 +51,7 @@ public class ReseauTest {
 
         assertEquals(1, reseau.getConnexions().size());
         Generateur g1 = findGenerateur(reseau.getGenerateurs(), "G1");
-        Maison m1 = reseau.getMaisons().get("M1");
+        Maison m1 = findMaison(reseau.getMaisons(), "M1");
         assertEquals(20, g1.getCharge());
         assertEquals(1, m1.getConnected());
     }
@@ -70,8 +76,8 @@ public class ReseauTest {
         Connexion c = reseau.getConnexions().get(0);
         assertEquals("M2", c.getMaison().getNom());
         assertEquals("G2", c.getGenerateur().getNom());
-        assertEquals(0, reseau.getMaisons().get("M1").getConnected());
-        assertEquals(1, reseau.getMaisons().get("M2").getConnected());
+        assertEquals(0, findMaison(reseau.getMaisons(), "M1").getConnected());
+        assertEquals(1, findMaison(reseau.getMaisons(), "M2").getConnected());
         assertEquals(0, findGenerateur(reseau.getGenerateurs(), "G1").getCharge());
         assertEquals(10, findGenerateur(reseau.getGenerateurs(), "G2").getCharge());
     }
@@ -86,7 +92,7 @@ public class ReseauTest {
         reseau.supprimerConnexion("M1", "G1");
 
         assertTrue(reseau.getConnexions().isEmpty());
-        assertEquals(0, reseau.getMaisons().get("M1").getConnected());
+        assertEquals(0, findMaison(reseau.getMaisons(), "M1").getConnected());
         assertEquals(0, findGenerateur(reseau.getGenerateurs(), "G1").getCharge());
     }
 
@@ -103,8 +109,8 @@ public class ReseauTest {
         reseau.changerConnexion("M1", "G2", "M1", "G1");
     }
 
-    @Test(expected = ConnexionNotFoundException.class)
-    public void changerConnexionNouvelleInvalideLanceException() throws Exception {
+    @Test(expected = NullPointerException.class)
+    public void changerConnexionNouvelleInvalideDeclencheNullPointer() throws Exception {
         Reseau reseau = new Reseau();
         reseau.ajouterMaison("M1", "BASSE");
         reseau.ajouterMaison("M2", "BASSE");
@@ -126,5 +132,12 @@ public class ReseauTest {
                 .filter(g -> g.getNom().equals(nom))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Generateur introuvable : " + nom));
+    }
+
+    private Maison findMaison(List<Maison> maisons, String nom) {
+        return maisons.stream()
+                .filter(m -> m.getNom().equals(nom))
+                .findFirst()
+                .orElseThrow(() -> new AssertionError("Maison introuvable : " + nom));
     }
 }

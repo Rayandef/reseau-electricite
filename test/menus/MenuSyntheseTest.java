@@ -34,7 +34,7 @@ public class MenuSyntheseTest {
                 "2", "M1 G1", "M1 G2", // changer connexion
                 "1",              // calculer cout
                 "4", fichierExport.toString(), // exporter
-                "5"               // quitter
+                "6"               // quitter
         ) + "\n";
 
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
@@ -55,7 +55,7 @@ public class MenuSyntheseTest {
         String input = String.join("\n",
                 "0",              // option invalide -> default
                 "2", "M1 G2", "M1 G1", // tentative de changement invalide (G2 absent)
-                "5"               // quitter
+                "6"               // quitter
         ) + "\n";
 
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));

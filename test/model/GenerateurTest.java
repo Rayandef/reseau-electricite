@@ -16,7 +16,7 @@ public class GenerateurTest {
         generateur.setNom("G2");
         generateur.setCapacite(80);
         generateur.setCharge(10);
-        generateur.setCharge(5);
+        generateur.addCharge(5);
 
         assertEquals("G2", generateur.getNom());
         assertEquals(80, generateur.getCapaciteMax());
@@ -28,7 +28,7 @@ public class GenerateurTest {
         Generateur generateur = new Generateur("G3", 70);
         generateur.setCharge(20);
 
-        String attendu = "G3 (70 kW max)Charge actuelle 20kW";
+        String attendu = "G3 (70 kW max) | Charge actuelle 20kW";
         assertEquals(attendu, generateur.toString());
     }
 }

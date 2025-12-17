@@ -6,19 +6,15 @@ import model.Generateur;
 import model.Reseau;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertEquals;
 
 public class CalculateurCoutTest {
 
     @Test
-    public void calculerAfficheDispersionSansSurcharge() throws ComposantException, ConnexionNotFoundException {
+    public void calculerRetourneDispersionSansSurcharge() throws ComposantException, ConnexionNotFoundException {
         Reseau reseau = new Reseau();
         reseau.ajouterGenerateur("G1", 60);
         reseau.ajouterGenerateur("G2", 60);
@@ -31,12 +27,10 @@ public class CalculateurCoutTest {
         reseau.ajouterConnexion("M2", "G2");
         reseau.ajouterConnexion("M3", "G1");
 
-        String sortie = capturerSortie(() -> CalculateurCout.calculer(reseau));
-
-        CoutStats stats = extraireStats(sortie);
-        assertEquals(0.333, stats.dispersion, 0.001);
-        assertEquals(0.000, stats.surcharge, 0.001);
-        assertEquals(0.333, stats.cout, 0.001);
+        List<Double> stats = CalculateurCout.getResult(reseau);
+        assertEquals(0.333, stats.get(0), 0.001);
+        assertEquals(0.000, stats.get(1), 0.001);
+        assertEquals(0.333, stats.get(2), 0.001);
     }
 
     @Test
@@ -57,65 +51,26 @@ public class CalculateurCoutTest {
         reseau.ajouterConnexion("M4", "G2");
         reseau.ajouterConnexion("M5", "G2"); // G2 charge = 30
 
-        String sortie = capturerSortie(() -> CalculateurCout.calculer(reseau));
-
-        CoutStats stats = extraireStats(sortie);
-        assertEquals(0.800, stats.dispersion, 0.001);
-        assertEquals(0.400, stats.surcharge, 0.001);
-        assertEquals(4.800, stats.cout, 0.001);
+        List<Double> stats = CalculateurCout.getResult(reseau);
+        assertEquals(0.800, stats.get(0), 0.001);
+        assertEquals(0.400, stats.get(1), 0.001);
+        assertEquals(4.800, stats.get(2), 0.001);
     }
 
     @Test
-    public void getDispertionCalculeLecartAutourDeLaMoyenne() {
+    public void getDispersionCalculeLEcartAutourDeLaMoyenneDesTauxDeCharge() {
         List<Generateur> generateurs = Arrays.asList(
                 new Generateur("G1", 50),
-                new Generateur("G2", 70),
-                new Generateur("G3", 90)
+                new Generateur("G2", 50),
+                new Generateur("G3", 50)
         );
 
-        double disp = new CalculateurCout().getDispertion(generateurs);
+        generateurs.get(0).setCharge(10); // taux 0.2
+        generateurs.get(1).setCharge(20); // taux 0.4
+        generateurs.get(2).setCharge(30); // taux 0.6
 
-        assertEquals(40.0, disp, 0.0001);
-    }
+        double disp = CalculateurCout.getDispersion(generateurs);
 
-    private String capturerSortie(Runnable runnable) {
-        PrintStream sortieOriginale = System.out;
-        ByteArrayOutputStream tampon = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(tampon));
-        try {
-            runnable.run();
-        } finally {
-            System.setOut(sortieOriginale);
-        }
-        return tampon.toString();
-    }
-
-    private CoutStats extraireStats(String sortie) {
-        Pattern p = Pattern.compile("Disp\\(S\\)=([\\d.,]+), Surcharge\\(S\\)=([\\d.,]+), Cout\\(S\\)=([\\d.,]+)");
-        Matcher m = p.matcher(sortie.trim());
-        if (!m.find()) {
-            throw new AssertionError("Format inattendu : " + sortie);
-        }
-        return new CoutStats(
-                parseNombre(m.group(1)),
-                parseNombre(m.group(2)),
-                parseNombre(m.group(3))
-        );
-    }
-
-    private double parseNombre(String valeur) {
-        return Double.parseDouble(valeur.replace(',', '.'));
-    }
-
-    private static class CoutStats {
-        final double dispersion;
-        final double surcharge;
-        final double cout;
-
-        CoutStats(double dispersion, double surcharge, double cout) {
-            this.dispersion = dispersion;
-            this.surcharge = surcharge;
-            this.cout = cout;
-        }
+        assertEquals(0.4, disp, 0.0001);
     }
 }
