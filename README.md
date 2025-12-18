@@ -1,9 +1,9 @@
 ﻿# Projet PAA 2025-2026 - Reseau de distribution d'electricite
 
-## Presentation
+## Présentation
 
-Ce projet simule un reseau electrique simplifie compose de generateurs, de maisons et de connexions.
-Il permet de construire un reseau pas a pas, d importer des instances, puis d evaluer et d optimiser le cout du reseau.
+Ce projet simule un réseau électrique simplifié composé de générateurs, de maisons et de connexions.
+Il permet de construire un réseau pas à pas, d importer des instances, puis d évaluer et d optimiser le coût du réseau.
 
 ---
 
@@ -30,6 +30,7 @@ reseau-electricite/
       AlgoBestConnexion.java
       CalculateurCout.java
     Main.java
+  instances/
   test/
     io/
       ExportFichierTest.java
@@ -46,12 +47,16 @@ reseau-electricite/
       AlgoBestConnexionTest.java
       CalculateurCoutTest.java
     MainTest.java
+  lib/
+    junit.jar
+  doc/
+    index.html
   README.md
 ```
 
-## Prerequis
+## Prérequis
 
-Les programmes etant ecrits en Java, il est necessaire d avoir un compilateur Java installe.
+Les programmes étant écrits en Java, il est nécessaire d avoir un compilateur Java installé.
 
 - Windows : installer MinGW
 - Linux (Debian/Ubuntu) :
@@ -63,42 +68,76 @@ Les programmes etant ecrits en Java, il est necessaire d avoir un compilateur Ja
   xcode-select --install
   ```
 
-## Compilation et execution
+## Compilation et exécution
 
 ### Depuis un terminal
 
-1. Se placer dans le dossier `src` :
+1. Se placer à la racine du projet :
    ```bash
-   cd src
+   cd reseau-electricite
    ```
 
 2. Compiler :
    ```bash
-   javac Main.java Menus/*.java model/*.java utils/*.java
+   javac -d bin src/Main.java src/exception/*.java src/io/*.java src/menus/*.java src/model/*.java src/utils/*.java
    ```
 
-3. Executer :
+3. Exécuter :
    ```bash
-   java Main
+   java -cp bin Main
    ```
+
+### Arguments possibles
+
+- Aucun argument : lance le menu de gestion puis le menu de synthèse.
+- 1 argument (chemin fichier) : importe le réseau puis lance le menu de synthèse.
+- 2 arguments (chemin fichier, lambda) : importe le réseau, fixe lambda puis lance le menu de synthèse.
+
+Exemples :
+
+```bash
+java -cp bin Main instances/instance1.txt
+java -cp bin Main instances/instance1.txt 10
+```
 
 ### Depuis un IDE
 
-Importer le dossier `reseau-electricite` comme projet Java et executer la classe `Main`.
+Importer le dossier `reseau-electricite` comme projet Java et exécuter la classe `Main`.
 
-## Fonctionnalites principales
+## Fonctionnalités principales
 
-- Ajouter, mettre a jour et supprimer des connexions entre maisons et generateurs.
-- Creer un reseau manuellement ou l importer depuis un fichier texte.
-- Exporter le reseau courant vers un fichier texte.
-- Optimiser automatiquement les connexions avec l algorithme de repartition.
-- Calculer le cout avec dispersion et surcharge (lambda = 10 par defaut).
+- Ajouter, mettre à jour et supprimer des connexions entre maisons et générateurs.
+- Créer un réseau manuellement ou l importer depuis un fichier texte.
+- Exporter le réseau courant vers un fichier texte.
+- Optimiser automatiquement les connexions avec l algorithme de répartition.
+- Calculer le coût avec dispersion et surcharge (lambda = 10 par défaut).
 
 ## Algorithme d optimisation
 
-L algorithme (AlgoBestConnexion) trie les maisons par consommation decroissante puis les affecte aux generateurs.
-Il cherche d abord une connexion sans surcharge qui minimise la dispersion, sinon il choisit le generateur
-qui minimise le cout (dispersion + lambda * surcharge). Les charges et connexions sont mises a jour a chaque ajout.
+L algorithme (AlgoBestConnexion) trie les maisons par consommation décroissante puis les affecte aux générateurs.
+Il cherche d abord une connexion sans surcharge qui minimise la dispersion, sinon il choisit le générateur
+qui minimise le coût (dispersion + lambda * surcharge). Les charges et connexions sont mises à jour à chaque ajout.
+
+## Format des fichiers d instances
+
+Chaque ligne respecte un des formats suivants :
+
+- generateur(Nom,Capacite).
+- maison(Nom,Type) avec Type = BASSE, NORMALE/NORMAL, FORTE.
+- connexion(Generateur,Maison).
+
+Voir `instances/` pour des exemples.
+
+## Tests
+
+Les tests JUnit sont dans `test/`. Le jar JUnit est fourni dans `lib/junit.jar`.
+
+Exemple (PowerShell) :
+
+```powershell
+javac -d bin -cp lib/junit.jar;bin test/MainTest.java
+java -cp lib/junit.jar;bin org.junit.runner.JUnitCore MainTest
+```
 
 ## Exemple de sortie
 
@@ -116,12 +155,10 @@ Disp(S)=0.167, Surcharge(S)=0.000, Cout(S)=0.167
 
 ## Documentation
 
-La documentation complete du projet (Javadoc) est trouvable en ouvrant le fichier `doc/index.html`.
+La documentation complète du projet (Javadoc) est trouvable en ouvrant le fichier `doc/index.html`.
 
 ## Auteurs
 
 - Rayan Defoor
 - Ronan Lallouet
 - Kevin Chen
-
-
