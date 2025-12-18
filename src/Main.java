@@ -25,7 +25,15 @@ public class Main {
                 } catch (ComposantException | ConnexionNotFoundException e) {
                     System.err.println("Erreur lors de l'import du fichier: " + e.getMessage());
                 }
-                MenuSynthese.afficherMenu(sc, reseau);
+                if(reseau.getConnexions().isEmpty()){
+                    System.out.println("Erreur dans l'importation d'un fichier");
+                    MenuGestion.afficherMenu(sc, reseau);
+                    MenuSynthese.afficherMenu(sc, reseau);
+                }
+                else{
+                    MenuSynthese.afficherMenu(sc, reseau);
+                }
+                
                 break;
 
             case 2:
