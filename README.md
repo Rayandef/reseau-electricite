@@ -1,9 +1,9 @@
-# Projet PAA 2025–2026 — Réseau de distribution d’électricité
+﻿# Projet PAA 2025–2026 — Réseau de distribution d’électricité
 
-## Présentation
+## Presentation
 
-Ce projet vise à **modéliser un réseau électrique simplifié**, composé de générateurs et de maisons reliés entre eux par des connexions.  
-L’utilisateur peut **créer manuellement un réseau**, **visualiser sa structure** et **calculer son coût** en fonction de critères de dispersion et de surcharge.
+Ce projet modele un reseau electrique simplifie compose de generateurs, de maisons et de connexions.
+L utilisateur peut construire un reseau, l importer depuis un fichier texte, puis calculer et optimiser son cout.
 
 ---
 
@@ -50,55 +50,11 @@ reseau-electricite/
 
 ```
 
-## Préréquis
+## Presentation
 
-Les programmes étant rédigés en **Java**, il est nécessaire d’avoir un **compilateur Java** installé sur votre système :
+Ce projet modele un reseau electrique simplifie compose de generateurs, de maisons et de connexions.
+L utilisateur peut construire un reseau, l importer depuis un fichier texte, puis calculer et optimiser son cout.
 
-- **Windows** : installer [MinGW](https://osdn.net/projects/mingw/releases/)  
-- **Linux (Debian/Ubuntu)** :  
-  ```bash
-  sudo apt install build-essential
-  ```
-- **macOS** :  
-  ```bash
-  xcode-select --install
-  ```
-
-
-## Compilation et exécution
-
-### Depuis un terminal
-
-1. Se placer dans le dossier `src` :
-   ```bash
-   cd src
-   ```
-
-2. Compiler :
-   ```bash
-   javac Main.java Menus/*.java model/*.java utils/*.java
-   ```
-
-3. Exécuter :
-   ```bash
-   java Main
-   ```
-
-
-### Depuis un IDE
-Importer le dossier `reseau-electricite` comme projet Java et exécuter la classe `Main`.
-
-## Fonctionnalités principales
-
-- Ajout de générateurs avec leur capacité maximale.
-- Ajout de maisons selon trois types de consommation : basse (10 kW), normale (20 kW), forte (40 kW).
-- Gestion des relations entre maisons et générateurs existants.
-- Affichage du réseau configuré.
-- Calcul du coût du réseau à l’aide des formules de dispersion et de surcharge (λ = 10).
-
-## Exemple de sortie
-
-```
 --- Réseau électrique ---
 Générateurs : [G1 (60 kW max), G2 (60 kW max)]
 Maisons : [M1 (40 kW), M2 (40 kW), M3 (20 kW)]
@@ -119,5 +75,7 @@ La documentation complète du projet (Javadoc) est trouvable en ouvrant le fichi
 - **Rayan Defoor**
 - **Ronan Lallouet**
 - **Kévin Chen**
+
+
 
 

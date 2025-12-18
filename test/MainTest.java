@@ -6,6 +6,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertTrue;
 
@@ -37,7 +40,7 @@ public class MainTest {
                 "2", "M1 BASSE",
                 "3", "M1 G1",
                 "6",               // quitter MenuGestion
-                "6"                // quitter MenuSynthese
+                "3"                // quitter MenuSynthese
         ) + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
 
@@ -50,30 +53,42 @@ public class MainTest {
 
     @Test
     public void mainAvecArgumentUniqueChargeDepuisFichierEtParcourtMenusDeuxFois() {
+        Path fichierExport = null;
+        try {
+            fichierExport = Files.createTempFile("reseau-export-main", ".txt");
+        } catch (Exception e) {
+            fichierExport = Paths.get("export.txt");
+        }
         String input = String.join("\n",
-                "1", "G1 50",
-                "2", "M1 BASSE",
-                "3", "M1 G1",
-                "6", // menu gestion
-                "6"  // menu synthese
+                "1",                 // optimiser
+                "2", fichierExport.toString(),   // exporter
+                "3"                  // quitter
         ) + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
 
         Main.main(new String[]{"instances/instance1.txt"});
 
         String sortie = outContent.toString();
-        assertTrue(sortie.contains("Menu principal"));
+        assertTrue(sortie.contains("Menu 2"));
         assertTrue(sortie.contains("Fin du programme."));
+        try {
+            Files.deleteIfExists(fichierExport);
+        } catch (Exception ignored) {
+        }
     }
 
     @Test
     public void mainAvecDeuxArgumentsChargeFichierEtLambdaPuisMenus() {
+        Path fichierExport = null;
+        try {
+            fichierExport = Files.createTempFile("reseau-export-main", ".txt");
+        } catch (Exception e) {
+            fichierExport = Paths.get("export.txt");
+        }
         String input = String.join("\n",
-                "1", "G1 50",
-                "2", "M1 BASSE",
-                "3", "M1 G1",
-                "6",               // fin menu gestion
-                "6"                // fin menu synthese
+                "1",                 // optimiser
+                "2", fichierExport.toString(),   // exporter
+                "3"                  // quitter
         ) + "\n";
         System.setIn(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
 
@@ -82,5 +97,9 @@ public class MainTest {
         String sortie = outContent.toString();
         assertTrue(sortie.contains("Lambda"));
         assertTrue(sortie.contains("Menu 2"));
+        try {
+            Files.deleteIfExists(fichierExport);
+        } catch (Exception ignored) {
+        }
     }
 }

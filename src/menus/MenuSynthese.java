@@ -1,6 +1,5 @@
 package menus;
 
-import exception.ConnexionNotFoundException;
 import io.ExportFichier;
 import java.io.*;
 import java.util.Scanner;

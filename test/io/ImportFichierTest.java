@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,14 +17,15 @@ public class ImportFichierTest {
     public void testImportReseauComplet() throws Exception {
         ImportFichier loader = new ImportFichier();
         Reseau reseau = new Reseau();
-        loader.creationReseau("instances/instance1.txt", reseau);
+        Path instancePath = Paths.get("instances", "instance1.txt");
+        loader.creationReseau(instancePath.toString(), reseau);
 
         assertEquals(6, reseau.getGenerateurs().size());
         assertEquals(9, reseau.getMaisons().size());
         assertEquals(9, reseau.getConnexions().size());
     }
 
-    @Test(expected = NumberFormatException.class)
+    @Test
     public void testImportAvecErreursFormatEtNombre() throws Exception {
         String contenu = String.join("\n",
                 "generateur(GX,notNumber).", // NumberFormatException
@@ -37,6 +39,9 @@ public class ImportFichierTest {
             ImportFichier loader = new ImportFichier();
             Reseau reseau = new Reseau();
             loader.creationReseau(temp.toString(), reseau);
+            assertEquals(0, reseau.getGenerateurs().size());
+            assertEquals(0, reseau.getMaisons().size());
+            assertEquals(0, reseau.getConnexions().size());
         } finally {
             Files.deleteIfExists(temp);
         }

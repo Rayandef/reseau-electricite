@@ -30,23 +30,21 @@ public class MenuSyntheseTest {
         Path fichierExport = Files.createTempFile("reseau-export-menu", ".txt");
         String input = String.join("\n",
                 "9",              // option invalide -> default
-                "3",              // afficher reseau
-                "2", "M1 G1", "M1 G2", // changer connexion
-                "1",              // calculer cout
-                "4", fichierExport.toString(), // exporter
-                "6"               // quitter
+                "1",              // optimiser reseau
+                "2", fichierExport.toString(), // exporter
+                "3"               // quitter
         ) + "\n";
 
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
         MenuSynthese.afficherMenu(scanner, reseau);
 
-        assertEquals("G2", reseau.getConnexions().get(0).getGenerateur().getNom());
+        assertEquals(reseau.getMaisons().size(), reseau.getConnexions().size());
         assertTrue(Files.size(fichierExport) > 0);
         Files.deleteIfExists(fichierExport);
     }
 
     @Test
-    public void optionInvalideEtEchecChangementConnexionPuisQuitte() throws ComposantException, ConnexionNotFoundException {
+    public void optionInvalidePuisQuitte() throws ComposantException, ConnexionNotFoundException {
         Reseau reseau = new Reseau();
         reseau.ajouterGenerateur("G1", 100);
         reseau.ajouterMaison("M1", "NORMALE");
@@ -54,8 +52,7 @@ public class MenuSyntheseTest {
 
         String input = String.join("\n",
                 "0",              // option invalide -> default
-                "2", "M1 G2", "M1 G1", // tentative de changement invalide (G2 absent)
-                "6"               // quitter
+                "3"               // quitter
         ) + "\n";
 
         Scanner scanner = new Scanner(new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8)));
