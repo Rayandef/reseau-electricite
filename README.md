@@ -162,3 +162,12 @@ La documentation complète du projet (Javadoc) est trouvable en ouvrant le fichi
 - Rayan Defoor
 - Ronan Lallouet
 - Kevin Chen
+
+## Note obtenue et commentaire du professeur
+18/20
+Bon projet dans l'ensemble.
+L'algorithme implémenté utilise une approche heuristique en commençant par affecter les maisons avec des grosses consommations.
+Le projet est très bien documenté.
+Rien à redire sur vos choix de conception pour représenter le réseau.
+L'importation du réseau fonctionne très bien et quelques erreurs sont gérées.
+Le principe d'encapsulation est bien respecté.
